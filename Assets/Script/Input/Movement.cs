@@ -7,9 +7,14 @@ public class Movement : MonoBehaviour
 {
     private Rigidbody2D rb = null;
     private float moveVectorX = 0;
-    public float moveSpeed = 5f;
+    private float moveVectorY = 0;
+    public float horizontalMoveSpeed = 5f;
     private float acceleration = 0;
 
+    private bool onGround = false;
+
+    private int jumpCount = 0;
+    private int jumpLimit = 2;
 
     private void Awake()
     {
@@ -18,9 +23,30 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        moveSpeed += acceleration;
-        moveSpeed = Mathf.Clamp(moveSpeed, 0, 7);
-        rb.velocity = new Vector2(moveVectorX, 0) * moveSpeed;
+        HorizontalMovement();
+        VerticalMovement();
+
+        //Apply movement
+        rb.velocity = new Vector2(moveVectorX * horizontalMoveSpeed, moveVectorY);
+    }
+
+    private void HorizontalMovement()
+    {
+        horizontalMoveSpeed += acceleration;
+        horizontalMoveSpeed = Mathf.Clamp(horizontalMoveSpeed, 0, 7);
+    }
+
+    private void VerticalMovement()
+    {
+        //Apply gravity
+        if(!onGround)
+        {
+            moveVectorY -= 0.5f;
+        }
+        else
+        {
+            moveVectorY = 0;
+        }
     }
 
     public void Move(InputAction.CallbackContext value)
@@ -34,6 +60,28 @@ public class Movement : MonoBehaviour
         if(value.canceled)
         {
             acceleration = -0.25f;
+        }
+    }
+
+    public void Jump(InputAction.CallbackContext value)
+    {
+        if(value.performed)
+        {
+            if(jumpCount < jumpLimit)
+            {
+                onGround = false;
+                moveVectorY = 14f;
+                jumpCount++;
+            }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        {
+            onGround = true;
+            jumpCount = 0;
         }
     }
 }
