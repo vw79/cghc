@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
+    public Animator animator;
     private Rigidbody2D rb = null;
+    private Vector3 originalScale;
     private float moveVectorX = 0;
     private float moveVectorY = 0;
     public float horizontalMoveSpeed = 5f;
@@ -19,6 +21,7 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        originalScale = transform.localScale;
     }
 
     private void Update()
@@ -28,6 +31,13 @@ public class Movement : MonoBehaviour
 
         //Apply movement
         rb.velocity = new Vector2(moveVectorX * horizontalMoveSpeed, moveVectorY);
+
+        animator.SetFloat("Speed", Mathf.Abs(moveVectorX));
+
+        if (moveVectorX > 0)
+            transform.localScale = new Vector3(originalScale.x, originalScale.y, originalScale.z);
+        else if (moveVectorX < 0)
+            transform.localScale = new Vector3(-originalScale.x, originalScale.y, originalScale.z);
     }
 
     private void HorizontalMovement()
@@ -59,6 +69,7 @@ public class Movement : MonoBehaviour
         
         if(value.canceled)
         {
+			moveVectorX = 0;
             acceleration = -0.25f;
         }
     }
