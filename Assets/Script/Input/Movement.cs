@@ -81,8 +81,10 @@ public class Movement : MonoBehaviour
             if(jumpCount < jumpLimit)
             {
                 onGround = false;
-                moveVectorY = 14f;
+                moveVectorY = 20f;  //original 14f
                 jumpCount++;
+
+                animator.Play("jump");
             }
         }
     }
