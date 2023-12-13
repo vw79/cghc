@@ -136,46 +136,21 @@ public class Movement : MonoBehaviour
 
     private void DetectGravity()
     {
-        // Calculate ray origin
-        Vector2 leftOrigin = ((_boundsBottomLeft + _boundsTopLeft) / 2f) + new Vector2(0.02f,0);
-        Vector2 rightOrigin = ((_boundsBottomRight + _boundsTopRight) / 2f) - new Vector2(0.02f, 0);
         Vector2 downOrigin = (_boundsBottomLeft + _boundsBottomRight) / 2;
 
-        float rayLength = _boundsHeight / 2f;
-        if(moveVectorY < 0)
+        if(moveVectorY <= 0)
         {
-            rayLength = _boundsHeight / 2f - moveVectorY / 100f;
-        }
-
-        RaycastHit2D[] hits = new RaycastHit2D[4];
-        for (int i = 0; i < 4; i++)
-        {
-            Vector2 rayOrigin = Vector2.Lerp(leftOrigin, rightOrigin, (float)i / (float)(4 - 1));
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, -transform.up, rayLength, LayerMask.GetMask("Floor"));
-            hits[i] = hit;
-            Debug.DrawRay(rayOrigin, -transform.up * rayLength, Color.green);
-        }
-        RaycastHit2D hit2 = Physics2D.BoxCast(downOrigin, new Vector2(_boundsWidth, 0.1f), 0, Vector2.down, rayLength, LayerMask.GetMask("Floor"));
-        Debug.Log(hit2.collider);
-
-        // Check if any of the rays hit the ground
-        bool rayHit = false;
-        foreach (RaycastHit2D hit in hits)
-        {
+            RaycastHit2D hit = Physics2D.BoxCast(downOrigin, new Vector2(_boundsWidth, 0.1f), 0, Vector2.down, 0, LayerMask.GetMask("Floor"));
             if (hit)
             {
-                rayHit = true;
+                onGround = true;
+                jumpCount = 0;
+            }
+            else
+            {
+                onGround = false;
             }
         }
-
-        if(rayHit)
-        {
-            onGround = true;
-            jumpCount = 0;
-        }
-        else
-        {
-            onGround = false;
-        }
+        
     }
 }
