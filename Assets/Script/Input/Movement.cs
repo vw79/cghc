@@ -36,10 +36,8 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-
         HorizontalMovement();
         VerticalMovement();
-
         //Apply movement
         rb.velocity = new Vector2(moveVectorX * horizontalMoveSpeed, moveVectorY);
 
