@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
 	#region COMPONENTS
     public Rigidbody2D RB { get; private set; }
+	private CinemachineImpulseSource _impulseSource;
 	#endregion
 
 	#region STATE PARAMETERS
@@ -63,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
+		_impulseSource = GetComponent<CinemachineImpulseSource>();
 	}
 
 	private void Start()
@@ -91,19 +94,20 @@ public class PlayerMovement : MonoBehaviour
 			CheckDirectionToFace(_moveInput.x > 0);
 
 		if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
-        {
-			OnJumpInput();
+		{
+			OnJumpInput();        
         }
 
-		if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
 		{
 			OnJumpUpInput();
-		}
+        }
 
-		if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.K))
 		{
 			OnDashInput();
-		}
+            CamShake.instance.CameraShake(_impulseSource);
+        }
 		#endregion
 
 		#region COLLISION CHECKS
@@ -560,5 +564,3 @@ public class PlayerMovement : MonoBehaviour
 	}
     #endregion
 }
-
-// created by Dawnosaur :D
