@@ -6,10 +6,15 @@ public class Anim : MonoBehaviour
 {
     public PlayerMovement playerMovement;
     public Animator animator;
+    public CapsuleCollider2D capCollider;
+
+    private Vector2 defaultColliderOffset = new Vector2(0.02005888f, -0.6382086f);
+    private Vector2 wallClingColliderOffset = new Vector2(-0.1546608f, -0.6382086f);
+
 
     void Start()
     {
-        
+        capCollider.offset = defaultColliderOffset;
     }
 
     void Update()
@@ -30,6 +35,28 @@ public class Anim : MonoBehaviour
         else
         {
             animator.SetBool("isJumping", false);
+        }
+
+        // Handle wall cling animation
+        if (playerMovement.IsSliding)
+        {
+            capCollider.offset = wallClingColliderOffset;
+            animator.SetBool("isWallClinging", true);
+        }
+        else
+        {
+            capCollider.offset = defaultColliderOffset;
+            animator.SetBool("isWallClinging", false);
+        }
+
+        // Handle falling animation
+        if (playerMovement.RB.velocity.y < -0.1 && !playerMovement.IsSliding)
+        {
+            animator.SetBool("isFalling", true);
+        }
+        else
+        {
+            animator.SetBool("isFalling", false);
         }
     }
 }

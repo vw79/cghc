@@ -414,8 +414,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02005888, y: -0.63820857}
-  m_Size: {x: 1.6796105, y: 3.3163402}
+  m_Offset: {x: -0.1546608, y: -0.63820857}
+  m_Size: {x: 1.330171, y: 3.3163402}
   m_Direction: 0
 --- !u!114 &248905363
 MonoBehaviour:
@@ -591,6 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 248905361}
   animator: {fileID: 333583446}
+  capCollider: {fileID: 248905362}
 --- !u!1 &536073785
 GameObject:
   m_ObjectHideFlags: 0
