@@ -106,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.K))
 		{
 			OnDashInput();
-            CamShake.instance.CameraShake(_impulseSource);
         }
 		#endregion
 
@@ -433,10 +432,11 @@ public class PlayerMovement : MonoBehaviour
 	//Dash Coroutine
 	private IEnumerator StartDash(Vector2 dir)
 	{
-		//Overall this method of dashing aims to mimic Celeste, if you're looking for
-		// a more physics-based approach try a method similar to that used in the jump
+        //Overall this method of dashing aims to mimic Celeste, if you're looking for
+        // a more physics-based approach try a method similar to that used in the jump
 
-		LastOnGroundTime = 0;
+        CamShake.instance.CameraShake(_impulseSource);
+        LastOnGroundTime = 0;
 		LastPressedDashTime = 0;
 
 		float startTime = Time.time;

@@ -592,6 +592,7 @@ MonoBehaviour:
   playerMovement: {fileID: 248905361}
   animator: {fileID: 333583446}
   capCollider: {fileID: 248905362}
+  playerGameObjet: {fileID: 248905357}
 --- !u!1 &536073785
 GameObject:
   m_ObjectHideFlags: 0
