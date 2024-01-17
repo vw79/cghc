@@ -53,6 +53,7 @@ public class Menu : MonoBehaviour
 	public void gReturn()
 	{
 		pmenu.SetActive(false);
+		Time.timeScale = 1;
 	}
 	
 	public void BTMM()
