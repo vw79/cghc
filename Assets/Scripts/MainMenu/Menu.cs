@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class Menu : MonoBehaviour
 {
 	public GameObject mmenu;
 	public GameObject smenu;
 	public GameObject vmenu;
 	public GameObject dmenu;
+	public GameObject pmenu;
 	
     void Start()
     {
@@ -46,6 +48,16 @@ public class MainMenu : MonoBehaviour
 		smenu.SetActive(true);
 		dmenu.SetActive(false);
 		vmenu.SetActive(false);
+	}
+	
+	public void gReturn()
+	{
+		pmenu.SetActive(false);
+	}
+	
+	public void BTMM()
+	{
+		SceneManager.LoadScene("MainMenu");
 	}
 
     public void Exit()
