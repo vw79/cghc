@@ -7,6 +7,7 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private GameObject spearPrefab;
     [SerializeField] private Transform spearSpawn;
+    [SerializeField] private float cooldownTime = 1f;
 
     private bool isShooting = false;
     private Vector2 direction;
@@ -44,6 +45,17 @@ public class PlayerShoot : MonoBehaviour
 
     public void ResetStatus()
     {
+        StartCoroutine(StartCooldown());
+    }
+
+    private IEnumerator StartCooldown()
+    {
+        float cooldownStart = Time.time;
+        while (true)
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+            if(Time.time >= cooldownStart + cooldownTime) break;
+        }
         isShooting = false;
     }
 }
