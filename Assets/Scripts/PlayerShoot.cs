@@ -8,6 +8,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private GameObject spearPrefab;
     [SerializeField] private Transform spearSpawn;
 
+    private bool isShooting = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,15 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot()
     {
+        if(isShooting) return;
+
         Spear spear = Instantiate(spearPrefab, spearSpawn.position, spearPrefab.transform.rotation).GetComponent<Spear>();
         spear.Initialise(this);
+        isShooting = true;
+    }
+
+    public void ResetStatus()
+    {
+        isShooting = false;
     }
 }
