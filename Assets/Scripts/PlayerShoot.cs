@@ -9,6 +9,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Transform spearSpawn;
 
     private bool isShooting = false;
+    private Vector2 direction;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,13 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+            
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+            direction.Normalize();
             Shoot();
         }
     }
@@ -30,7 +38,7 @@ public class PlayerShoot : MonoBehaviour
         if(isShooting) return;
 
         Spear spear = Instantiate(spearPrefab, spearSpawn.position, spearPrefab.transform.rotation).GetComponent<Spear>();
-        spear.Initialise(this);
+        spear.Initialise(this, direction);
         isShooting = true;
     }
 
