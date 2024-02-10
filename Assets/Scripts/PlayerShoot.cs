@@ -7,6 +7,7 @@ public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private GameObject spearPrefab;
     [SerializeField] private Transform spearSpawn;
+    [SerializeField] private GameObject trail;
     [SerializeField] private float cooldownTime = 1f;
 
     private bool isShooting = false;
@@ -21,17 +22,38 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateDirection();
+
         if (Input.GetMouseButtonDown(1))
         {
-            
+            trail.SetActive(true);
         }
 
         if (Input.GetMouseButtonUp(1))
         {
-            direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
-            direction.Normalize();
+            trail.SetActive(false);
             Shoot();
         }
+    }
+
+    private void UpdateDirection()
+    {
+        direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+        direction.Normalize();
+
+        // Trail looks towards the direction of the spear
+        float angle;
+        Vector2 frontDirection = transform.localScale.x >= 0 ? Vector2.right : Vector2.left;
+        if(direction.y > 0)
+        {
+            angle = Vector2.Angle(Vector2.right, direction);
+        }
+        else
+        {
+            angle = 360 - Vector2.Angle(Vector2.right, direction);
+        }
+        if(transform.localScale.x < 0) angle = 180 + angle;
+        trail.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     private void Shoot()
