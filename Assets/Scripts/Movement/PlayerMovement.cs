@@ -4,7 +4,8 @@ using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
-	public PlayerData Data;
+    public AudioSource run, jump, dash;
+    public PlayerData Data;
 
 	#region COMPONENTS
     public Rigidbody2D RB { get; private set; }
@@ -322,8 +323,8 @@ public class PlayerMovement : MonoBehaviour
     #region RUN METHODS
     private void Run(float lerpAmount)
 	{
-		//Calculate the direction we want to move in and our desired velocity
-		float targetSpeed = _moveInput.x * Data.runMaxSpeed;
+        //Calculate the direction we want to move in and our desired velocity
+        float targetSpeed = _moveInput.x * Data.runMaxSpeed;
 		//We can reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
@@ -366,12 +367,22 @@ public class PlayerMovement : MonoBehaviour
 		//Convert this to a vector and apply to rigidbody
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 
-		/*
+        /*
 		 * For those interested here is what AddForce() will do
 		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);
 		 * Time.fixedDeltaTime is by default in Unity 0.02 seconds equal to 50 FixedUpdate() calls per second
 		*/
-	}
+        if (Mathf.Abs(_moveInput.x) > 0.01f && LastOnGroundTime > 0 && !run.isPlaying)
+        {
+            Debug.Log("Trying to play running sound");
+            run.Play();
+        }
+        else if ((Mathf.Abs(_moveInput.x) <= 0.01f || LastOnGroundTime <= 0) && run.isPlaying)
+        {
+            Debug.Log("Stopping running sound");
+            run.Stop();
+        }
+    }
 
 	private void Turn()
 	{
@@ -390,12 +401,13 @@ public class PlayerMovement : MonoBehaviour
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
+		jump.Play();
 
-		#region Perform Jump
-		//We increase the force applied if we are falling
-		//This means we'll always feel like we jump the same amount 
-		//(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
-		float force = Data.jumpForce;
+        #region Perform Jump
+        //We increase the force applied if we are falling
+        //This means we'll always feel like we jump the same amount 
+        //(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
+        float force = Data.jumpForce;
 		if (RB.velocity.y < 0)
 			force -= RB.velocity.y;
 
@@ -410,9 +422,10 @@ public class PlayerMovement : MonoBehaviour
 		LastOnGroundTime = 0;
 		LastOnWallRightTime = 0;
 		LastOnWallLeftTime = 0;
+		jump.Play();
 
-		#region Perform Wall Jump
-		Vector2 force = new Vector2(Data.wallJumpForce.x, Data.wallJumpForce.y);
+        #region Perform Wall Jump
+        Vector2 force = new Vector2(Data.wallJumpForce.x, Data.wallJumpForce.y);
 		force.x *= dir; //apply force in opposite direction of wall
 
 		if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
@@ -443,6 +456,7 @@ public class PlayerMovement : MonoBehaviour
 
 		_dashesLeft--;
 		_isDashAttacking = true;
+		dash.Play();
 
 		SetGravityScale(0);
 
