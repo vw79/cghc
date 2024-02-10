@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stealth : MonoBehaviour
 {
     public GameObject stealthFilter; // Reference to the stealth filter object
-    public PlayerMovement playerMovement; // Reference to the player's movement script
+    public AudioSource hide;
 
     private string defaultTag;
     private bool isPlayerInHidingZone = false; // Track if the player is in a hiding zone
@@ -73,6 +73,7 @@ public class Stealth : MonoBehaviour
             // Change the player's sorting layer to 'Hide'
             playerSpriteRenderer.sortingLayerName = "Hide";
             playerSpriteRenderer.sortingOrder = 1; // Ensure the player is rendered above the bush
+            hide.Play();
         }
         else
         {
@@ -83,6 +84,7 @@ public class Stealth : MonoBehaviour
             // Revert the player's sorting layer to the original
             playerSpriteRenderer.sortingLayerName = "Default"; // Or your original layer name
             playerSpriteRenderer.sortingOrder = 0; // Revert to the original order
+            hide.Stop();
         }
     }
 }
