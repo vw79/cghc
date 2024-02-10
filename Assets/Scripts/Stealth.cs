@@ -10,11 +10,16 @@ public class Stealth : MonoBehaviour
     private string defaultTag;
     private bool isPlayerInHidingZone = false; // Track if the player is in a hiding zone
     private bool isStealthModeActive = false; // Track the state of stealth mode
+    private SpriteRenderer playerSpriteRenderer;
 
     private void Start()
     {
         // Store the player's default tag
         defaultTag = gameObject.tag;
+
+        // Get the SpriteRenderer from the child GameObject
+        playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         // Ensure the stealth filter is initially deactivated
         stealthFilter.SetActive(false);
     }
@@ -23,6 +28,10 @@ public class Stealth : MonoBehaviour
     {
         // Check for player input to toggle stealth mode
         if (Input.GetKeyDown(KeyCode.E) && isPlayerInHidingZone)
+        {
+            ToggleStealthMode();
+        }
+        if (Input.GetMouseButtonDown(0) && isStealthModeActive)
         {
             ToggleStealthMode();
         }
@@ -61,6 +70,9 @@ public class Stealth : MonoBehaviour
             gameObject.tag = "Stealth";
             stealthFilter.SetActive(true);
             Debug.Log("Entering Stealth Mode");
+            // Change the player's sorting layer to 'Hide'
+            playerSpriteRenderer.sortingLayerName = "Hide";
+            playerSpriteRenderer.sortingOrder = 1; // Ensure the player is rendered above the bush
         }
         else
         {
@@ -68,6 +80,9 @@ public class Stealth : MonoBehaviour
             gameObject.tag = defaultTag;
             stealthFilter.SetActive(false);
             Debug.Log("Exiting Stealth Mode");
+            // Revert the player's sorting layer to the original
+            playerSpriteRenderer.sortingLayerName = "Default"; // Or your original layer name
+            playerSpriteRenderer.sortingOrder = 0; // Revert to the original order
         }
     }
 }
