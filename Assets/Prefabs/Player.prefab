@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2926100133354455105}
   - component: {fileID: 2053407189614443169}
   - component: {fileID: 5771611026214478124}
+  - component: {fileID: 8413983304123098694}
   - component: {fileID: 7436331596424549179}
   - component: {fileID: 4053193286511925744}
   - component: {fileID: 8556863393170557998}
@@ -179,6 +180,20 @@ MonoBehaviour:
     m_DissipationDistance: 20
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 1, y: 1, z: 0}
+--- !u!114 &8413983304123098694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016154567729319725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea281110b520ea4fb48393ea174288a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideObject: {fileID: 0}
+  stealthFilter: {fileID: 0}
 --- !u!82 &7436331596424549179
 AudioSource:
   m_ObjectHideFlags: 0
