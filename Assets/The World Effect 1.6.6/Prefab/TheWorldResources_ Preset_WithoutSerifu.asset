@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca99058c1ab726d42b2e5d8ecdc106f0, type: 3}
+  m_Name: TheWorldResources_ Preset_WithoutSerifu
+  m_EditorClassIdentifier: 
+  Name: "\u9810\u8A2D\u7121\u53F0\u8A5E"
+  MaxStopTime: 10
+  EndSoundEffectPlayTime: 1
+  TheWorldSoundEffects:
+  - {fileID: 8300000, guid: 9c07732213660334bb398060803875ec, type: 3}
+  - {fileID: 8300000, guid: 8571d60fece9a6c4f80661d4fd32437d, type: 3}
