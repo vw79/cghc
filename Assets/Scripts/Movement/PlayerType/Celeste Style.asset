@@ -52,4 +52,4 @@ MonoBehaviour:
   dashRefillTime: 0.1
   dashInputBufferTime: 0.1
   groundCheckDistance: 2.2
-  wallCheckDistance: 1.5
+  wallCheckDistance: 0.6

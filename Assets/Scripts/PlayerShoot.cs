@@ -11,13 +11,14 @@ public class PlayerShoot : MonoBehaviour
     public float cooldownTime = 1f;
     [SerializeField] private Cooldown cdScript;
 
+    private Animator animator;
     private bool isShooting = false;
     private Vector2 direction;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -27,11 +28,13 @@ public class PlayerShoot : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            animator.Play("Charge");
             trail.SetActive(true);
         }
 
         if (Input.GetMouseButtonUp(1))
         {
+            animator.Play("Shoot");
             trail.SetActive(false);
             if (cdScript.UseSpell()) 
             {
@@ -63,14 +66,20 @@ public class PlayerShoot : MonoBehaviour
     private void Shoot()
     {
         if(isShooting) return;
-
-        Spear spear = Instantiate(spearPrefab, spearSpawn.position, spearPrefab.transform.rotation).GetComponent<Spear>();
-        spear.Initialise(this, direction);
-        isShooting = true;
+        StartCoroutine(WaitAnim());
+        
     }
 
     public void ResetStatus()
     {
         isShooting = false;
+    }
+
+    IEnumerator WaitAnim() 
+    { 
+        yield return new WaitForSeconds(0.3f);
+        Spear spear = Instantiate(spearPrefab, spearSpawn.position, spearPrefab.transform.rotation).GetComponent<Spear>();
+        spear.Initialise(this, direction);
+        isShooting = true;
     }
 }
