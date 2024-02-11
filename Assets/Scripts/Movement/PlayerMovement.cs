@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
 	public float LastPressedDashTime { get; private set; }
 	#endregion
 
-	#region CHECK PARAMETERS
+	/*#region CHECK PARAMETERS
 	[Header("Checks")] 
 	[SerializeField] private Transform _groundCheckPoint;
 	[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private Transform _frontWallCheckPoint;
 	[SerializeField] private Transform _backWallCheckPoint;
 	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
-    #endregion
+    #endregion*/
 
     #region LAYERS & TAGS
     [Header("Layers & Tags")]
@@ -113,29 +113,28 @@ public class PlayerMovement : MonoBehaviour
 		#region COLLISION CHECKS
 		if (!IsDashing && !IsJumping)
 		{
-			//Ground Check
-			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
-			{
-				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
-            }		
+            //Ground Check
+            RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, Data.groundCheckDistance, _groundLayer);
+            if (groundHit.collider != null) //checks if raycast hits ground
+            {
+                LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+            }
 
-			//Right Wall Check
-			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
-					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
-				LastOnWallRightTime = Data.coyoteTime;
+            //Wall Check
+            RaycastHit2D wallHitRight = Physics2D.Raycast(transform.position, Vector2.right, Data.wallCheckDistance, _groundLayer);
+            RaycastHit2D wallHitLeft = Physics2D.Raycast(transform.position, Vector2.left, Data.wallCheckDistance, _groundLayer);
 
-			//Right Wall Check
-			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
-				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
-				LastOnWallLeftTime = Data.coyoteTime;
+            if (wallHitRight.collider != null && IsFacingRight) LastOnWallRightTime = Data.coyoteTime;
+            if (wallHitLeft.collider != null && !IsFacingRight) LastOnWallLeftTime = Data.coyoteTime;
+            if (wallHitLeft.collider != null && IsFacingRight) LastOnWallRightTime = Data.coyoteTime;
+            if (wallHitRight.collider != null && !IsFacingRight) LastOnWallLeftTime = Data.coyoteTime;
 
-			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
-			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
-		}
-		#endregion
+            LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
+        }
+        #endregion
 
-		#region JUMP CHECKS
-		if (IsJumping && RB.velocity.y < 0)
+        #region JUMP CHECKS
+        if (IsJumping && RB.velocity.y < 0)
 		{
 			IsJumping = false;
 
@@ -567,14 +566,15 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
 
-    #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
-		Gizmos.color = Color.blue;
-		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
-		Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
-	}
-    #endregion
+        Gizmos.color = Color.red;
+
+        // Draw ground check ray
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * Data.groundCheckDistance);
+
+        // Draw wall check rays
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * Data.wallCheckDistance);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * Data.wallCheckDistance);
+    }
 }

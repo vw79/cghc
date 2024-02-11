@@ -1272,10 +1272,6 @@ PrefabInstance:
       propertyPath: cdScript
       value: 
       objectReference: {fileID: 1972546864}
-    - target: {fileID: 5423299955048244908, guid: b02d0577622712f45b58d6b08871068f, type: 3}
-      propertyPath: cooldownTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6435841021970102802, guid: b02d0577622712f45b58d6b08871068f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.29

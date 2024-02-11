@@ -77,9 +77,14 @@ public class PlayerData : ScriptableObject
 	public float dashRefillTime;
 	[Space(5)]
 	[Range(0.01f, 0.5f)] public float dashInputBufferTime;
-	
 
-	//Unity Callback, called when the inspector updates
+    [Space(20)]
+    [Header("Raycast Checks")]
+    public float groundCheckDistance; // Distance to check below the player for ground
+    public float wallCheckDistance; // Distance to check to the sides of the player for walls
+
+
+    //Unity Callback, called when the inspector updates
     private void OnValidate()
     {
 		//Calculate gravity strength using the formula (gravity = 2 * jumpHeight / timeToJumpApex^2) 

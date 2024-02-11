@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4806422427781971740, guid: e816f4eb68c590549ad7b8332b9bb079, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.81
+      value: -2.11
       objectReference: {fileID: 0}
     - target: {fileID: 4806422427781971740, guid: e816f4eb68c590549ad7b8332b9bb079, type: 3}
       propertyPath: m_LocalPosition.z
@@ -169,7 +169,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1083711794803049953, guid: e816f4eb68c590549ad7b8332b9bb079, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4806422427781971740, guid: e816f4eb68c590549ad7b8332b9bb079, type: 3}
       insertIndex: -1
@@ -200,6 +201,7 @@ MonoBehaviour:
   spearSpawn: {fileID: 5028549849291562086}
   trail: {fileID: 3766264140279087940}
   cooldownTime: 1
+  cdScript: {fileID: 0}
 --- !u!4 &6435841021970102802 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4806422427781971740, guid: e816f4eb68c590549ad7b8332b9bb079, type: 3}
