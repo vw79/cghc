@@ -10,7 +10,12 @@ public class Stealth : MonoBehaviour
     private string defaultTag;
     private bool isPlayerInHidingZone = false; // Track if the player is in a hiding zone
     private bool isStealthModeActive = false; // Track the state of stealth mode
+    private bool isCooldownActive = false; // Track if the cooldown is active
     private SpriteRenderer playerSpriteRenderer;
+
+    // Cooldown and hiding duration
+    private float cooldownTime = 3f;
+    private float maxHidingTime = 5f;
 
     private void Start()
     {
@@ -27,7 +32,7 @@ public class Stealth : MonoBehaviour
     private void Update()
     {
         // Check for player input to toggle stealth mode
-        if (Input.GetKeyDown(KeyCode.E) && isPlayerInHidingZone)
+        if (Input.GetKeyDown(KeyCode.E) && isPlayerInHidingZone && !isCooldownActive)
         {
             ToggleStealthMode();
         }
@@ -70,21 +75,56 @@ public class Stealth : MonoBehaviour
             gameObject.tag = "Stealth";
             stealthFilter.SetActive(true);
             Debug.Log("Entering Stealth Mode");
-            // Change the player's sorting layer to 'Hide'
             playerSpriteRenderer.sortingLayerName = "Hide";
-            playerSpriteRenderer.sortingOrder = 1; // Ensure the player is rendered above the bush
+            playerSpriteRenderer.sortingOrder = 1;
             hide.Play();
+
+            // Start the coroutine to automatically exit stealth mode after max hiding time
+            StartCoroutine(ExitStealthModeAfterDelay(maxHidingTime));
         }
         else
         {
-            // Exit stealth mode
-            gameObject.tag = defaultTag;
-            stealthFilter.SetActive(false);
-            Debug.Log("Exiting Stealth Mode");
-            // Revert the player's sorting layer to the original
-            playerSpriteRenderer.sortingLayerName = "Default"; // Or your original layer name
-            playerSpriteRenderer.sortingOrder = 0; // Revert to the original order
-            hide.Stop();
+            // Exit stealth mode and start the cooldown if not already started by the coroutine
+            if (!isCooldownActive)
+            {
+                StartCooldown();
+            }
         }
+    }
+
+    private IEnumerator ExitStealthModeAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (isStealthModeActive)
+        {
+            StartCooldown();
+        }
+    }
+
+    private void StartCooldown()
+    {
+        ExitStealthMode();
+        isCooldownActive = true;
+        StartCoroutine(CooldownTimer());
+        Debug.Log("Stealth mode cooldown started.");
+    }
+
+    private IEnumerator CooldownTimer()
+    {
+        yield return new WaitForSeconds(cooldownTime);
+        isCooldownActive = false;
+        Debug.Log("Stealth cooldown finished. You can hide again.");
+    }
+
+    private void ExitStealthMode()
+    {
+        // Set stealth mode to inactive
+        isStealthModeActive = false;
+        gameObject.tag = defaultTag;
+        stealthFilter.SetActive(false);
+        playerSpriteRenderer.sortingLayerName = "Default";
+        playerSpriteRenderer.sortingOrder = 0;
+        hide.Stop();
+        Debug.Log("Exiting Stealth Mode");
     }
 }
