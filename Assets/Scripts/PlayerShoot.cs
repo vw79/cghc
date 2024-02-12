@@ -30,6 +30,9 @@ public class PlayerShoot : MonoBehaviour
         {
             animator.Play("Charge");
             trail.SetActive(true);
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<PlayerMovement>().StopRunningSound();
         }
 
         if (Input.GetMouseButtonUp(1))
@@ -81,5 +84,6 @@ public class PlayerShoot : MonoBehaviour
         Spear spear = Instantiate(spearPrefab, spearSpawn.position, spearPrefab.transform.rotation).GetComponent<Spear>();
         spear.Initialise(this, direction);
         isShooting = true;
+        GetComponent<PlayerMovement>().enabled = true;
     }
 }

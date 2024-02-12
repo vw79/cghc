@@ -591,4 +591,9 @@ public class PlayerMovement : MonoBehaviour
             return false;
     }
     #endregion
+
+    public void StopRunningSound()
+    {
+        run.Stop();
+    }
 }
