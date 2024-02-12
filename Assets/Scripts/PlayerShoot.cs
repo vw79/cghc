@@ -56,14 +56,16 @@ public class PlayerShoot : MonoBehaviour
         Vector2 frontDirection = transform.localScale.x >= 0 ? Vector2.right : Vector2.left;
         if(direction.y > 0)
         {
-            angle = Vector2.Angle(Vector2.right, direction);
+            angle = Vector2.Angle(frontDirection, direction);
         }
         else
         {
-            angle = 360 - Vector2.Angle(Vector2.right, direction);
+            angle = -Vector2.Angle(frontDirection, direction);
         }
-        if(transform.localScale.x < 0) angle = 180 + angle;
+        angle = Mathf.Clamp(angle, -90, 90);
+        //if(transform.localScale.x < 0) angle = 180 + angle;
         trail.transform.rotation = Quaternion.Euler(0, 0, angle);
+        if(transform.localScale.x < 0) trail.transform.rotation = new Quaternion(trail.transform.rotation.x, trail.transform.rotation.y, -trail.transform.rotation.z, trail.transform.rotation.w);
     }
 
     private void Shoot()

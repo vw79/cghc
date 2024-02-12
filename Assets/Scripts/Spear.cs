@@ -16,8 +16,18 @@ public class Spear : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerRef = player;
-        shootDirection = direction;
         startPosition = transform.position;
+
+
+        if(player.transform.localScale.x > 0)
+        {
+            direction.x = Mathf.Max(0,direction.x);
+        }
+        else
+        {
+            direction.x = Mathf.Min(0,direction.x);
+        }
+        shootDirection = direction.normalized;
 
         // Adjust spear's direction
         float angle;
@@ -29,6 +39,7 @@ public class Spear : MonoBehaviour
         {
             angle = Vector2.Angle(Vector2.up, direction);
         }
+
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
