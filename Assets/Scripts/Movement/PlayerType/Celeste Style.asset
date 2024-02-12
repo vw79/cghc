@@ -51,5 +51,3 @@ MonoBehaviour:
   dashEndRunLerp: 0.5
   dashRefillTime: 0.1
   dashInputBufferTime: 0.1
-  groundCheckDistance: 2.2
-  wallCheckDistance: 0.6
