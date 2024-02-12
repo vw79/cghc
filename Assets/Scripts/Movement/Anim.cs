@@ -4,20 +4,32 @@ using UnityEngine;
 
 public class Anim : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
-    public Animator animator;
-    public CapsuleCollider2D capCollider;
-    public GameObject playerGameObjet;
+    private GameObject player;
+    private PlayerMovement playerMovement;
+    private Animator animator;
+    private CapsuleCollider2D capCollider;
+    private GameObject playerGameObjet;
 
     private Vector2 defaultColliderOffset = new Vector2(0.02005888f, -0.6382086f);
     private Vector2 wallClingColliderOffset = new Vector2(-0.1546608f, -0.6382086f);
+
+    private PlayerAttack playerAttack;
+
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
+        capCollider = player.GetComponent<CapsuleCollider2D>();
+        playerAttack = player.GetComponent<PlayerAttack>();
+    }
 
     void Start()
     {
         capCollider.offset = defaultColliderOffset;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Mathf.Abs(playerMovement.RB.velocity.x) > 0.1f)
         {
@@ -61,34 +73,5 @@ public class Anim : MonoBehaviour
 
         // Handle dash animation
         animator.SetBool("isDashing", playerMovement.IsDashing);
-      
-
-        //test for now
-        // Handle attack animation
-        if (Input.GetMouseButtonDown(0))
-        {
-            playerMovement.RB.velocity = new Vector2(0, playerMovement.RB.velocity.y);
-            animator.Play("Attack");
-            playerMovement.enabled = false;
-            StartCoroutine(AttackWait());
-        }
-
-        IEnumerator AttackWait()
-        {
-            yield return new WaitForSeconds(0.8f);
-            playerMovement.enabled = true;  
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            animator.Play("Death");
-            StartCoroutine(DeathWait());       
-        }
-
-        IEnumerator DeathWait()
-        {
-            yield return new WaitForSeconds(0.97f);
-            Destroy(playerGameObjet);
-        }
     }
 }

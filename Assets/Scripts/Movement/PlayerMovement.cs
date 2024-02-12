@@ -63,6 +63,32 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     #endregion
 
+    private void OnEnable()
+    {
+        // Reset state parameters
+        IsJumping = false;
+        IsWallJumping = false;
+        IsDashing = false;
+        IsSliding = false;
+        _isJumpCut = false;
+        _isJumpFalling = false;
+        _isDashAttacking = false;
+
+        // Reset timers
+        LastOnGroundTime = 0;
+        LastOnWallTime = 0;
+        LastOnWallRightTime = 0;
+        LastOnWallLeftTime = 0;
+        LastPressedJumpTime = 0;
+        LastPressedDashTime = 0;
+
+        _moveInput = Vector2.zero;
+
+        _dashesLeft = Data.dashAmount; 
+
+        SetGravityScale(Data.gravityScale);
+    }
+
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -563,18 +589,6 @@ public class PlayerMovement : MonoBehaviour
             return true;
         else
             return false;
-    }
-    #endregion
-
-
-    #region EDITOR METHODS
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
-        Gizmos.DrawWireCube(_backWallCheckPoint.position, _wallCheckSize);
     }
     #endregion
 }
