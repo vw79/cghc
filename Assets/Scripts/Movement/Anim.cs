@@ -7,11 +7,7 @@ public class Anim : MonoBehaviour
     private GameObject player;
     private PlayerMovement playerMovement;
     private Animator animator;
-    private CapsuleCollider2D capCollider;
-    private GameObject playerGameObjet;
-
-    private Vector2 defaultColliderOffset = new Vector2(0.02005888f, -0.6382086f);
-    private Vector2 wallClingColliderOffset = new Vector2(-0.1546608f, -0.6382086f);
+    private PlayerHealthSystem playerHealth;
 
     private PlayerAttack playerAttack;
 
@@ -20,58 +16,54 @@ public class Anim : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
-        capCollider = player.GetComponent<CapsuleCollider2D>();
         playerAttack = player.GetComponent<PlayerAttack>();
+        playerHealth = player.GetComponent<PlayerHealthSystem>();
     }
 
-    void Start()
+    void Update()
     {
-        capCollider.offset = defaultColliderOffset;
-    }
+        if (!playerHealth.isDead)
+        {
+            // Run      
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+            {
+                animator.SetBool("isRunning", true);
+            }
+            else
+            {
+                animator.SetBool("isRunning", false);
+            }
 
-    void FixedUpdate()
-    {
-        if (Mathf.Abs(playerMovement.RB.velocity.x) > 0.1f)
-        {
-            animator.SetBool("isRunning", true);
-        }
-        else
-        {
-            animator.SetBool("isRunning", false);
-        }
+            // Jump
+            if (playerMovement.IsJumping)
+            {
+                animator.Play("Jump");
+            }
 
-        if (playerMovement.RB.velocity.y > 0.1)
-        {
-            animator.SetBool("isJumping", true);
-        }
-        else
-        {
-            animator.SetBool("isJumping", false);
-        }
+            // WallCling
+            if (playerMovement.IsSliding)
+            {
+                animator.Play("WallSlide");
+            }
 
-        // Handle wall cling animation
-        if (playerMovement.IsSliding)
-        {
-            capCollider.offset = wallClingColliderOffset;
-            animator.SetBool("isWallClinging", true);
-        }
-        else
-        {
-            capCollider.offset = defaultColliderOffset;
-            animator.SetBool("isWallClinging", false);
-        }
+            // Fall
+            if (playerMovement.RB.velocity.y < -0.1 && !playerMovement.IsSliding)
+            {
+                animator.Play("Fall");
+            }
 
-        // Handle falling animation
-        if (playerMovement.RB.velocity.y < -0.1 && !playerMovement.IsSliding)
-        {
-            animator.SetBool("isFalling", true);
-        }
-        else
-        {
-            animator.SetBool("isFalling", false);
-        }
+            // Dash
+            if (playerMovement.IsDashing)
+            {
+                animator.Play("Dash");
+            }
 
-        // Handle dash animation
-        animator.SetBool("isDashing", playerMovement.IsDashing);
+            // WallJump
+            if (playerMovement.IsWallJumping)
+            {
+                animator.Play("Dash");
+            }
+        }
+        
     }
 }

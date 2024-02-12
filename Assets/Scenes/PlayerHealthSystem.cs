@@ -2,6 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class PlayerHealthSystem : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerHealthSystem : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerAttack playerAttack;
     private CinemachineImpulseSource impulseSource;
+
     public bool isDead;
     
     private void Awake()
@@ -46,39 +48,29 @@ public class PlayerHealthSystem : MonoBehaviour
         }
     }
 
-    IEnumerator DeathWait()
-    {
-        yield return new WaitForSeconds(0.97f);
-        player.SetActive(false);
-    }
-
     public void TakeDamage()
     {
-        if (isDead || lives <= 0) return;
-        
-        //UI
+        if (isDead) return;
+
         lives--;
-        if (lives >= 0 && lives < hearts.Length)
+
+        animator.Play("Hurt");
+        CamShake.instance.CameraShake(impulseSource);
+        playerMovement.RB.velocity = new Vector2(0, playerMovement.RB.velocity.y);
+        playerMovement.enabled = false;
+        playerAttack.enabled = false;
+
+        StartCoroutine(Hurt());
+
+
+        if (lives < hearts.Length)
         {
-            hearts[lives].enabled = false; 
+            hearts[lives].enabled = false;
         }
 
-        // Hurt Effect
-        if (!isDead)
+        if (lives <= 0)
         {
-            animator.Play("Hurt");
-            CamShake.instance.CameraShake(impulseSource);
-            playerMovement.enabled = false;
-            playerAttack.enabled = false;
-            StartCoroutine(Hurt());
-        }
-
-        // Death
-        if (lives <= 0 && !isDead)
-        {
-            isDead = true;
-            animator.Play("Death");
-            StartCoroutine(DeathWait());
+            Death();
         }
     }
 
@@ -100,6 +92,8 @@ public class PlayerHealthSystem : MonoBehaviour
 
     public void ResetHealth()
     {
+        playerMovement.enabled = true;
+        playerAttack.enabled = true;
         isDead = false;
         lives = hearts.Length; 
 
@@ -115,4 +109,23 @@ public class PlayerHealthSystem : MonoBehaviour
         playerMovement.enabled = true;
         playerAttack.enabled = true;
     }
+
+    private void Death()
+    {
+        if (!isDead)
+        {
+            playerMovement.enabled = false;
+            playerAttack.enabled = false;
+            isDead = true;
+            animator.Play("Death");
+            StartCoroutine(DeathWait());
+        }
+    }
+
+    IEnumerator DeathWait()
+    {
+        yield return new WaitForSeconds(0.97f);
+        player.SetActive(false);
+    }
+    
 }

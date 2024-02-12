@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     #region COMPONENTS
     public Rigidbody2D RB { get; private set; }
     private CinemachineImpulseSource _impulseSource;
+    private PlayerHealthSystem playerHealth;
     #endregion
 
     #region STATE PARAMETERS
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWallJumping { get; private set; }
     public bool IsDashing { get; private set; }
     public bool IsSliding { get; private set; }
-
+    
     //Timers
     public float LastOnGroundTime { get; private set; }
     public float LastOnWallTime { get; private set; }
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float LastPressedJumpTime { get; private set; }
     public float LastPressedDashTime { get; private set; }
+
     #endregion
 
     #region CHECK PARAMETERS
@@ -93,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
     {
         RB = GetComponent<Rigidbody2D>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        playerHealth = GetComponent<PlayerHealthSystem>();
     }
 
     private void Start()
@@ -286,7 +289,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Handle Run
         if (!IsDashing)
         {
             if (IsWallJumping)
@@ -349,6 +351,11 @@ public class PlayerMovement : MonoBehaviour
     #region RUN METHODS
     private void Run(float lerpAmount)
     {
+        if (playerHealth.isDead)
+        {
+            _moveInput = Vector2.zero;
+            return;
+        }
         //Calculate the direction we want to move in and our desired velocity
         float targetSpeed = _moveInput.x * Data.runMaxSpeed;
         //We can reduce are control using Lerp() this smooths changes to are direction and speed
@@ -412,12 +419,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Turn()
     {
-        //stores scale and flips the player along the x axis, 
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        if (!playerHealth.isDead)
+        {
+            //stores scale and flips the player along the x axis, 
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
 
-        IsFacingRight = !IsFacingRight;
+            IsFacingRight = !IsFacingRight;
+        }     
     }
     #endregion
 

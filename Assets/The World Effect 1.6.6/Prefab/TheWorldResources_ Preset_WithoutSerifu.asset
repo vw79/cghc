@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TheWorldResources_ Preset_WithoutSerifu
   m_EditorClassIdentifier: 
   Name: "\u9810\u8A2D\u7121\u53F0\u8A5E"
-  MaxStopTime: 10
+  MaxStopTime: 6
   EndSoundEffectPlayTime: 1
   TheWorldSoundEffects:
   - {fileID: 8300000, guid: 9c07732213660334bb398060803875ec, type: 3}

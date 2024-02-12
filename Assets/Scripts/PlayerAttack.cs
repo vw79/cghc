@@ -12,11 +12,13 @@ public class PlayerAttack : MonoBehaviour
 
     private Animator animator;
     private PlayerMovement playerMovement;
+    private PlayerHealthSystem playerHealth;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerHealth = GetComponent<PlayerHealthSystem>();
     }
 
     void Update()
@@ -30,6 +32,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack()
     {
+        if(playerHealth.isDead) return;
         playerMovement.RB.velocity = new Vector2(0, playerMovement.RB.velocity.y);
         playerMovement.enabled = false;
         animator.Play("Attack");
