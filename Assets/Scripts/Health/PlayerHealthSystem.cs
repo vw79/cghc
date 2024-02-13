@@ -126,6 +126,7 @@ public class PlayerHealthSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(0.97f);
         player.SetActive(false);
+        GameManager.Instance.PlayerDied();
     }
     
 }

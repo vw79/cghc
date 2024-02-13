@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         playerHealth.ResetHealth();
 
         loseMenu.SetActive(false);
-        winMenu.SetActive(false);
+        //winMenu.SetActive(false);
         pauseMenu.SetActive(false);
 
         Time.timeScale = 1f;
@@ -131,13 +131,19 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
+        player.SetActive(false);
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 
-    public void QuitGame()
+    public void CinematicChat()
     {
-        Application.Quit();
+        isCinematic = true;
+        playerAttack.enabled = false;
+        playerMovement.enabled = false;
+        playerHealth.enabled = false;
+        anim.enabled = false;
+        Time.timeScale = 0f;
     }
     #endregion
 }
