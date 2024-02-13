@@ -6,6 +6,9 @@ TagManager:
   tags:
   - HidingSpot
   - Stealth
+  - InitialSpawn
+  - PauseMenu
+  - GameOver
   layers:
   - Default
   - TransparentFX
