@@ -17,9 +17,21 @@ public class Menu : MonoBehaviour
 		vmenu.SetActive(false);
 		dmenu.SetActive(false);
 		Cursor.visible = true;
+        PlayerPrefs.SetInt("LastSceneIndex", SceneManager.GetActiveScene().buildIndex);
     }
-	
-	public void Settings()
+
+	public void Continue()
+	{
+        int lastSceneIndex = PlayerPrefs.GetInt("LastSceneIndex", 0); // Use a default value of 0 or your main menu index
+        SceneManager.LoadScene(lastSceneIndex);
+    }
+
+    public void NewGame()
+    {
+        SceneManager.LoadScene("Level 1");
+    }
+
+    public void Settings()
 	{
 		mmenu.SetActive(false);
 		smenu.SetActive(true);
