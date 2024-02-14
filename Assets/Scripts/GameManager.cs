@@ -41,9 +41,10 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
+            return; 
         }
 
         cinematicBars = GameObject.Find("CinematicBars").GetComponent<CinematicBars>();
@@ -104,6 +105,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied()
     {
+        DisableControl();
         loseMenu.SetActive(true);
         Time.timeScale = 0;
     }
@@ -116,6 +118,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            
         player.SetActive(true);
         EnableControl();
         playerHealth.ResetHealth();
@@ -133,6 +138,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StopAllCoroutines();
         StartCoroutine(FadeOut(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f));
         GameObject background = GameObject.FindGameObjectWithTag("Background");
 
@@ -150,6 +156,11 @@ public class GameManager : MonoBehaviour
         Transform spawn1 = GameObject.FindGameObjectWithTag("InitialSpawn").transform;
         spawnPosition = spawn1.position;
         player.transform.position = spawn1.position;
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; 
     }
 
 
@@ -183,7 +194,7 @@ public class GameManager : MonoBehaviour
         }
         canvasGroup.alpha = 1;
 
-        SceneManager.LoadScene(sceneIndex);
+        SceneManager.LoadSceneAsync(sceneIndex);
     }
 
     public IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
