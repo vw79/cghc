@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Lab");
     }
 
     public void Settings()
