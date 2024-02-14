@@ -80,6 +80,11 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    void Start()
+    {
+        explosionCanvasGroup.alpha = 0;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -200,6 +205,19 @@ public class GameManager : MonoBehaviour
         canvasGroup.alpha = 1;
 
         SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    public IEnumerator FadeInNoTrans(CanvasGroup canvasGroup, float duration)
+    {
+        DisableControl();
+        float time = 0;
+        while (time < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(0, 1, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 1;
     }
 
     public IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
