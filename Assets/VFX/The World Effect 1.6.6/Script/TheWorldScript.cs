@@ -37,7 +37,7 @@ public class TheWorldScript : MonoBehaviour
   {
     if (Input.GetKeyDown(KeyCode.Z))
     {
-      TheWorld();
+      StartTimeStop();
     }
     //顯示關閉Sound
     if (WithoutSerifu)
@@ -77,36 +77,34 @@ public class TheWorldScript : MonoBehaviour
     }
   }
 
-  void TheWorld()
+  void StartTimeStop()
   {
     if (!StopTime)
     {
       GetComponent<AudioSource>().PlayOneShot(TheWorldSoundEffects[0]);
       for (int i = 0; i < transform.GetChild(0).childCount; i++)
       {
-        ParticleSystem PS;
-        PS = transform.GetChild(0).GetChild(i).GetComponent<ParticleSystem>();
-        PS.Play();
+        ParticleSystem particleSystem;
+        particleSystem = transform.GetChild(0).GetChild(i).GetComponent<ParticleSystem>();
+        particleSystem.Play();
       }
 
       if (StandPowerParticleSystem)
       {
         for (int i = 0; i < transform.GetChild(2).childCount; i++)//stand power
         {
-          ParticleSystem PS;
-          PS = transform.GetChild(2).GetChild(i).GetComponent<ParticleSystem>();
-          var main = PS.main;
+          ParticleSystem particleSystem;
+          particleSystem = transform.GetChild(2).GetChild(i).GetComponent<ParticleSystem>();
+          var main = particleSystem.main;
           main.duration = MaxStopTime;
           main.startLifetime = MaxStopTime;
 
-          PS.Play();
+          particleSystem.Play();
         }
       }
 
       StopTime = true;
       //Time.timeScale = 0;
-
-      Debug.Log("ザ・ワールド！ 時よ止まれ！");
 
       time = MaxStopTime;
       StartCoroutine("StartStopTime");
@@ -129,8 +127,7 @@ public class TheWorldScript : MonoBehaviour
       {
         if (time == EndSoundEffectPlayTime)
         {
-          TokiWaUgokidasu();
-          Debug.Log("時は動き出す");
+          ClearTimeStop();
         }
 
         if (time == 1)
@@ -142,7 +139,7 @@ public class TheWorldScript : MonoBehaviour
     }
   }
 
-  void TokiWaUgokidasu()
+  void ClearTimeStop()
   {
     GetComponent<AudioSource>().PlayOneShot(TheWorldSoundEffects[1]);
   }

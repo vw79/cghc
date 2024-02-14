@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca99058c1ab726d42b2e5d8ecdc106f0, type: 3}
   m_Name: TheWorldResources_ Preset_WithoutSerifu
   m_EditorClassIdentifier: 
-  Name: "\u9810\u8A2D\u7121\u53F0\u8A5E"
+  Name: ' '
   MaxStopTime: 6
   EndSoundEffectPlayTime: 1
   TheWorldSoundEffects:

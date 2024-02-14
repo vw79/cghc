@@ -11,6 +11,7 @@ public class Spear : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float speed = 10f;
     [SerializeField] private Vector2 maxDistance;
+    [SerializeField] private Transform teleportPoint;
 
     public void Initialise(PlayerShoot player, Vector2 direction)
     {
@@ -56,7 +57,7 @@ public class Spear : MonoBehaviour
 
     private void TeleportPlayer()
     {
-        playerRef.transform.position = transform.position;
+        playerRef.transform.position = teleportPoint.position;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
