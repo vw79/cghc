@@ -871,11 +871,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &380098008 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 20035625121662305, guid: ffeb83fe2ca4bf141b6595fd9fc1f6e6, type: 3}
-  m_PrefabInstance: {fileID: 677951471}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &383172962
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,30 +1034,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 516110142905747405, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: StopAllChildren
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 516110142905747405, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: DynamicScriptMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 516110142905747405, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: StopAll.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 516110142905747405, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: StopAll.Array.data[0]
-      value: 
-      objectReference: {fileID: 380098008}
-    - target: {fileID: 2357349333110144077, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2562779908260158957, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: m_Volume
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 3407132822851747129, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
       propertyPath: cdScript
       value: 
@@ -1119,14 +1090,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7692647043898649764, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: WithoutSerifu
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7692647043898649764, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: TheWorldResource
-      value: 
-      objectReference: {fileID: 11400000, guid: d8babb8f975cafb4b8ad302b494501be, type: 2}
     - target: {fileID: 7811525265522137948, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1135,12 +1098,7 @@ PrefabInstance:
       propertyPath: stealthFilter
       value: 
       objectReference: {fileID: 5102606}
-    - target: {fileID: 9127701208677014033, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 516110142905747405, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

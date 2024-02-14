@@ -9,13 +9,18 @@ public class SwitchCam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        cam2.SetActive(true);
-        StartCoroutine(DeactivateCam2AfterDelay());
+        if(other.CompareTag("Player"))
+        {
+            if (cam2 == null) return;
+            cam2.SetActive(true);
+            StartCoroutine(DeactivateCam2AfterDelay());
+        }
     }
 
     private IEnumerator DeactivateCam2AfterDelay()
     {
         yield return new WaitForSeconds(delay);
         cam2.SetActive(false);
+        Destroy(this.gameObject);
     }
 }

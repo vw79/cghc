@@ -10087,7 +10087,6 @@ GameObject:
   - component: {fileID: 8687723587498505250}
   - component: {fileID: 2562779908260158957}
   - component: {fileID: 7692647043898649764}
-  - component: {fileID: 516110142905747405}
   m_Layer: 0
   m_Name: The World Effect
   m_TagString: Untagged
@@ -10125,7 +10124,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -10223,34 +10222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StopTime: 0
   time: 0
-  WithoutSerifu: 1
-  TheWorldResource:
-  - {fileID: 11400000, guid: d8babb8f975cafb4b8ad302b494501be, type: 2}
-  StandPowerParticleSystem: 1
---- !u!114 &516110142905747405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3362463814208643015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bf82c20b1f701f4fb7e5b28ea84f168, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DynamicScriptMode: 1
-  StopAllChildren: 0
-  StopAll:
-  - {fileID: 0}
-  StopRigidbody:
-  - {fileID: 0}
-  StopAnimator: []
-  StopParticleSystem:
-  - {fileID: 0}
-  StopAudioSource: []
-  StopNavMeshAgent: []
-  StopVideoPlayer: []
+  TheWorldResource: {fileID: 11400000, guid: d8babb8f975cafb4b8ad302b494501be, type: 2}
 --- !u!1 &3538442332029542533
 GameObject:
   m_ObjectHideFlags: 0
@@ -30095,7 +30067,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7811525265522137948}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 064d0f150a5ff6f4c9d1aa7430729f48, type: 2}
   m_IncludeLayers:
