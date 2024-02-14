@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWallJumping { get; private set; }
     public bool IsDashing { get; private set; }
     public bool IsSliding { get; private set; }
+    public bool IsRunning;
     
     //Timers
     public float LastOnGroundTime { get; private set; }
@@ -75,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         _isJumpCut = false;
         _isJumpFalling = false;
         _isDashAttacking = false;
+        IsRunning = false;
 
         // Reset timers
         LastOnGroundTime = 0;
@@ -89,6 +91,12 @@ public class PlayerMovement : MonoBehaviour
         _dashesLeft = Data.dashAmount; 
 
         SetGravityScale(Data.gravityScale);
+    }
+
+    private void OnDisable()
+    {
+        RB.velocity = new Vector2(0, RB.velocity.y);
+        IsRunning = false;
     }
 
     private void Awake()
@@ -123,17 +131,17 @@ public class PlayerMovement : MonoBehaviour
         if (_moveInput.x != 0)
             CheckDirectionToFace(_moveInput.x > 0);
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnJumpInput();
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             OnJumpUpInput();
         }
 
-        if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             OnDashInput();
         }
@@ -143,9 +151,9 @@ public class PlayerMovement : MonoBehaviour
         if (!IsDashing && !IsJumping)
         {
             //Ground Check
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
+            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer))
             {
-                LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+                LastOnGroundTime = Data.coyoteTime;
             }
 
             //Right Wall Check
@@ -158,7 +166,6 @@ public class PlayerMovement : MonoBehaviour
                 || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
                 LastOnWallLeftTime = Data.coyoteTime;
 
-            //Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
             LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
         }
         #endregion
@@ -214,7 +221,7 @@ public class PlayerMovement : MonoBehaviour
         #region DASH CHECKS
         if (CanDash() && LastPressedDashTime > 0)
         {
-            //Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
+            //Freeze game for split second. Adds forgiveness over directional input
             Sleep(Data.dashSleepTime);
 
             //If not direction pressed, dash forward
@@ -222,8 +229,6 @@ public class PlayerMovement : MonoBehaviour
                 _lastDashDir = _moveInput;
             else
                 _lastDashDir = IsFacingRight ? Vector2.right : Vector2.left;
-
-
 
             IsDashing = true;
             IsJumping = false;
@@ -253,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //Much higher gravity if holding down
                 SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-                //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+                //Caps maximum fall speed
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
             }
             else if (_isJumpCut)
@@ -270,18 +275,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 //Higher gravity if falling
                 SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-                //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
+                //Caps maximum fall speed
                 RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
             }
             else
             {
-                //Default gravity if standing on a platform or moving upwards
+                //Default gravity
                 SetGravityScale(Data.gravityScale);
             }
         }
         else
         {
-            //No gravity when dashing (returns to normal once initial dashAttack phase over)
+            //No gravity when dashing
             SetGravityScale(0);
         }
         #endregion
@@ -333,16 +338,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Sleep(float duration)
     {
-        //Method used so we don't need to call StartCoroutine everywhere
-        //nameof() notation means we don't need to input a string directly.
-        //Removes chance of spelling mistakes and will improve error messages if any
+        //Method used to freeze the game for a short period of time
         StartCoroutine(nameof(PerformSleep), duration);
     }
 
     private IEnumerator PerformSleep(float duration)
     {
         Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(duration); //Must be Realtime since timeScale with be 0 
+        yield return new WaitForSecondsRealtime(duration); 
         Time.timeScale = 1;
     }
     #endregion
@@ -354,18 +357,18 @@ public class PlayerMovement : MonoBehaviour
         if (playerHealth.isDead)
         {
             _moveInput = Vector2.zero;
+            IsRunning = false;
             return;
         }
-        //Calculate the direction we want to move in and our desired velocity
+
         float targetSpeed = _moveInput.x * Data.runMaxSpeed;
-        //We can reduce are control using Lerp() this smooths changes to are direction and speed
         targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
+
+        IsRunning = Mathf.Abs(_moveInput.x) > 0.01f && Mathf.Abs(targetSpeed) > 0.01f;
 
         #region Calculate AccelRate
         float accelRate;
 
-        //Gets an acceleration value based on if we are accelerating (includes turning) 
-        //or trying to decelerate (stop). As well as applying a multiplier if we're air borne.
         if (LastOnGroundTime > 0)
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
         else
@@ -373,7 +376,7 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Add Bonus Jump Apex Acceleration
-        //Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
+
         if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
         {
             accelRate *= Data.jumpHangAccelerationMult;
@@ -382,29 +385,18 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         #region Conserve Momentum
-        //We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
         if (Data.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
         {
-            //Prevent any deceleration from happening, or in other words conserve are current momentum
-            //You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
             accelRate = 0;
         }
         #endregion
 
-        //Calculate difference between current velocity and desired velocity
         float speedDif = targetSpeed - RB.velocity.x;
-        //Calculate force along x-axis to apply to thr player
 
         float movement = speedDif * accelRate;
 
-        //Convert this to a vector and apply to rigidbody
         RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 
-        /*
-		 * For those interested here is what AddForce() will do
-		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);
-		 * Time.fixedDeltaTime is by default in Unity 0.02 seconds equal to 50 FixedUpdate() calls per second
-		*/
         if (Mathf.Abs(_moveInput.x) > 0.01f && LastOnGroundTime > 0 && !run.isPlaying)
         {
             Debug.Log("Trying to play running sound");
@@ -421,7 +413,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!playerHealth.isDead)
         {
-            //stores scale and flips the player along the x axis, 
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
@@ -434,15 +425,11 @@ public class PlayerMovement : MonoBehaviour
     #region JUMP METHODS
     private void Jump()
     {
-        //Ensures we can't call Jump multiple times from one press
         LastPressedJumpTime = 0;
         LastOnGroundTime = 0;
         jump.Play();
 
         #region Perform Jump
-        //We increase the force applied if we are falling
-        //This means we'll always feel like we jump the same amount 
-        //(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
         float force = Data.jumpForce;
         if (RB.velocity.y < 0)
             force -= RB.velocity.y;
@@ -453,7 +440,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump(int dir)
     {
-        //Ensures we can't call Wall Jump multiple times from one press
         LastPressedJumpTime = 0;
         LastOnGroundTime = 0;
         LastOnWallRightTime = 0;
@@ -462,28 +448,22 @@ public class PlayerMovement : MonoBehaviour
 
         #region Perform Wall Jump
         Vector2 force = new Vector2(Data.wallJumpForce.x, Data.wallJumpForce.y);
-        force.x *= dir; //apply force in opposite direction of wall
+        force.x *= dir; 
 
         if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
             force.x -= RB.velocity.x;
 
-        if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
+        if (RB.velocity.y < 0) 
             force.y -= RB.velocity.y;
 
-        //Unlike in the run we want to use the Impulse mode.
-        //The default mode will apply are force instantly ignoring masss
         RB.AddForce(force, ForceMode2D.Impulse);
         #endregion
     }
     #endregion
 
     #region DASH METHODS
-    //Dash Coroutine
     private IEnumerator StartDash(Vector2 dir)
     {
-        //Overall this method of dashing aims to mimic Celeste, if you're looking for
-        // a more physics-based approach try a method similar to that used in the jump
-
         CamShake.instance.CameraShake(_impulseSource);
         LastOnGroundTime = 0;
         LastPressedDashTime = 0;
@@ -496,12 +476,9 @@ public class PlayerMovement : MonoBehaviour
 
         SetGravityScale(0);
 
-        //We keep the player's velocity at the dash speed during the "attack" phase (in celeste the first 0.15s)
         while (Time.time - startTime <= Data.dashAttackTime)
         {
             RB.velocity = dir.normalized * Data.dashSpeed;
-            //Pauses the loop until the next frame, creating something of a Update loop. 
-            //This is a cleaner implementation opposed to multiple timers and this coroutine approach is actually what is used in Celeste :D
             yield return null;
         }
 
@@ -509,7 +486,6 @@ public class PlayerMovement : MonoBehaviour
 
         _isDashAttacking = false;
 
-        //Begins the "end" of our dash where we return some control to the player but still limit run acceleration (see Update() and Run())
         SetGravityScale(Data.gravityScale);
         RB.velocity = Data.dashEndSpeed * dir.normalized;
 
@@ -518,14 +494,11 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
 
-        //Dash over
         IsDashing = false;
     }
 
-    //Short period before the player is able to dash again
     private IEnumerator RefillDash(int amount)
     {
-        //SHoet cooldown, so we can't constantly dash along the ground, again this is the implementation in Celeste, feel free to change it up
         _dashRefilling = true;
         yield return new WaitForSeconds(Data.dashRefillTime);
         _dashRefilling = false;
@@ -536,18 +509,14 @@ public class PlayerMovement : MonoBehaviour
     #region OTHER MOVEMENT METHODS
     private void Slide()
     {
-        //We remove the remaining upwards Impulse to prevent upwards sliding
         if (RB.velocity.y > 0)
         {
             RB.AddForce(-RB.velocity.y * Vector2.up, ForceMode2D.Impulse);
         }
 
-        //Works the same as the Run but only in the y-axis
-        //THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
         float speedDif = Data.slideSpeed - RB.velocity.y;
         float movement = speedDif * Data.slideAccel;
-        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
-        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
+        
         movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
         RB.AddForce(movement * Vector2.up);

@@ -24,16 +24,19 @@ public class Anim : MonoBehaviour
     {
         if (!playerHealth.isDead)
         {
-            // Run      
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+            if (playerMovement.IsRunning)
             {
-                animator.SetBool("isRunning", true);
+                // Run      
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                {
+                    animator.SetBool("isRunning", true);
+                }
             }
             else
             {
                 animator.SetBool("isRunning", false);
             }
-
+            
             // Jump
             if (playerMovement.IsJumping)
             {
@@ -62,6 +65,11 @@ public class Anim : MonoBehaviour
             if (playerMovement.IsWallJumping)
             {
                 animator.Play("Dash");
+            }
+
+            if (playerAttack.isAttacking)
+            {
+                animator.Play("Attack");
             }
         }
         

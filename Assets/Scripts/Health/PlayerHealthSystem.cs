@@ -56,7 +56,6 @@ public class PlayerHealthSystem : MonoBehaviour
 
         animator.Play("Hurt");
         CamShake.instance.CameraShake(impulseSource);
-        playerMovement.RB.velocity = new Vector2(0, playerMovement.RB.velocity.y);
         playerMovement.enabled = false;
         playerAttack.enabled = false;
 

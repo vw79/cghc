@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public bool isAttacking = false;
+    public bool isAttacking;
 
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -24,20 +24,17 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {   
-            
+        {             
             Attack();
+            isAttacking = true;
         }
     }
 
     void Attack()
     {
         if(playerHealth.isDead) return;
-        playerMovement.RB.velocity = new Vector2(0, playerMovement.RB.velocity.y);
         playerMovement.enabled = false;
-        animator.Play("Attack");
         StartCoroutine(WaitAnim());
-
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in hitEnemies)
@@ -58,7 +55,8 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator WaitAnim()
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.47f);
         playerMovement.enabled = true;
+        isAttacking = false;
     }
 }

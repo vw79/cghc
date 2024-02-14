@@ -67,6 +67,11 @@ public class GameManager : MonoBehaviour
                 PauseGame();
             }
         }
+
+        if (isCinematic)
+        {
+            DisableControl();
+        }
     }
 
     void SpawnPlayer()
@@ -90,6 +95,7 @@ public class GameManager : MonoBehaviour
     {
         player.SetActive(true);
         player.transform.position = spawn1.position;
+        EnableControl();
         playerHealth.ResetHealth();
 
         loseMenu.SetActive(false);
@@ -98,21 +104,28 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 1f;
 
+        isPaused = false;
+    }
+
+    public void DisableControl()
+    {
+        playerAttack.enabled = false;
+        playerMovement.enabled = false;
+        playerHealth.enabled = false;
+    }
+
+    public void EnableControl()
+    {
         playerAttack.enabled = true;
         playerMovement.enabled = true;
-        anim.enabled = true;
-
-        isPaused = false;
+        playerHealth.enabled = true;
     }
 
     #region PauseMenu
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
-        playerAttack.enabled = false;
-        playerMovement.enabled = false;
-        anim.enabled = false;
-        playerHealth.enabled = false;
+        DisableControl();
         Time.timeScale = 0f;
         isPaused = true;
 
@@ -121,10 +134,7 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        playerAttack.enabled = true;
-        playerMovement.enabled = true;
-        playerHealth.enabled = true;
-        anim.enabled = true;
+        EnableControl();
         Time.timeScale = 1f;
         isPaused = false;
     }
@@ -139,10 +149,7 @@ public class GameManager : MonoBehaviour
     public void CinematicChat()
     {
         isCinematic = true;
-        playerAttack.enabled = false;
-        playerMovement.enabled = false;
-        playerHealth.enabled = false;
-        anim.enabled = false;
+        DisableControl();
         Time.timeScale = 0f;
     }
     #endregion
