@@ -7,6 +7,10 @@ public class FalloutWorld : MonoBehaviour
 {
     public GameObject gameovermenu;
 
+    private void Awake()
+    {
+        gameovermenu = GameManager.Instance.loseMenu;
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

@@ -25103,7 +25103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheckPoint: {fileID: 8057548594881807797}
-  groundCheckSize: {x: 0.49, y: 0.03}
+  groundCheckSize: {x: 1.4, y: 0.15}
   frontWallCheckPoint: {fileID: 5479310067656245792}
   backWallCheckPoint: {fileID: 2334655164054947054}
   wallCheckSize: {x: 0.5, y: 1}
@@ -30078,7 +30078,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.29, y: -2.11, z: 0}
-  m_LocalScale: {x: 0.82322, y: 0.82322, z: 0.82322}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2661067930460578646}
@@ -30219,6 +30219,7 @@ MonoBehaviour:
   jump: {fileID: 6708445278878558469}
   dash: {fileID: 3158059847648641293}
   Data: {fileID: 11400000, guid: e6de6150ab38ff74b9ee0fa32028adf7, type: 2}
+  IsRunning: 0
   _groundCheckPoint: {fileID: 8057548594881807797}
   _groundCheckSize: {x: 0.49, y: 0.03}
   _frontWallCheckPoint: {fileID: 5479310067656245792}
@@ -30709,7 +30710,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.16840684, y: -0.63112295}
+  m_Offset: {x: -0.16840684, y: -0.62827575}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -30720,7 +30721,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3368133, y: 3.3463523}
+  m_Size: {x: 1.3368133, y: 3.340658}
   m_EdgeRadius: 0
 --- !u!1 &8469585865377687178
 GameObject:

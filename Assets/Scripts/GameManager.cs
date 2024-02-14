@@ -1,27 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
+using UnityEngine.UI;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private GameObject loseMenu;
+    private GameObject vCamera;
+    private CinemachineConfiner cinemachineConfiner;
+
+    private GameObject inGameUI;
+
+    public GameObject loseMenu;
     private GameObject winMenu;
     private GameObject pauseMenu;
+    private CanvasGroup explosionCanvasGroup;
+    private CinematicBars cinematicBars;
 
+    private Vector3 spawnPosition;
     private GameObject player;
     private PlayerHealthSystem playerHealth;
-    private Transform spawn1;
+    private PlayerShoot playerShoot;
+
 
     
     private PlayerMovement playerMovement;  
     private PlayerAttack playerAttack;
     private Anim anim;
     public bool isPaused;
-    public bool isCinematic;
 
     private void Awake()
     {
@@ -35,23 +46,34 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        cinematicBars = GameObject.Find("CinematicBars").GetComponent<CinematicBars>();
         loseMenu = GameObject.FindGameObjectWithTag("GameOver");
-        //winMenu = GameObject.Find("WinMenu");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
+        explosionCanvasGroup = GameObject.FindGameObjectWithTag("ExplosionFilter").GetComponent<CanvasGroup>();
+        //winMenu = GameObject.Find("WinMenu");
+        DontDestroyOnLoad(explosionCanvasGroup);
         player = GameObject.FindGameObjectWithTag("Player");
+        vCamera = GameObject.FindGameObjectWithTag("Camera");
+        cinemachineConfiner = FindObjectOfType<CinemachineConfiner>();
+        inGameUI = GameObject.FindGameObjectWithTag("UI");
+
         DontDestroyOnLoad(player);
+        DontDestroyOnLoad(vCamera);
+        DontDestroyOnLoad(inGameUI);
+
 
         playerHealth = player.GetComponent<PlayerHealthSystem>();
-        spawn1 = GameObject.FindWithTag("InitialSpawn").transform;
 
         playerMovement = player.GetComponent<PlayerMovement>();
         playerAttack = player.GetComponent<PlayerAttack>();
+        playerShoot = player.GetComponent<PlayerShoot>();
         anim = player.GetComponentInChildren<Anim>();
 
         loseMenu.SetActive(false);
         //winMenu.SetActive(false);
         pauseMenu.SetActive(false);
-        SpawnPlayer();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Update()
@@ -68,15 +90,16 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (isCinematic)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            DisableControl();
+            playerAttack.enabled = false;
+            playerShoot.enabled = false;
         }
-    }
-
-    void SpawnPlayer()
-    {
-        player.transform.position = spawn1.position;
+        else
+        {
+            playerAttack.enabled = true;
+            playerShoot.enabled = true;
+        }
     }
 
     public void PlayerDied()
@@ -94,9 +117,10 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         player.SetActive(true);
-        player.transform.position = spawn1.position;
         EnableControl();
         playerHealth.ResetHealth();
+
+        player.transform.position = spawnPosition; 
 
         loseMenu.SetActive(false);
         //winMenu.SetActive(false);
@@ -107,11 +131,35 @@ public class GameManager : MonoBehaviour
         isPaused = false;
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(FadeOut(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f));
+        GameObject background = GameObject.FindGameObjectWithTag("Background");
+
+        if (background != null)
+        {
+            PolygonCollider2D polygonCollider = background.GetComponent<PolygonCollider2D>();
+            if (polygonCollider != null)
+            {
+                cinemachineConfiner.m_BoundingShape2D = polygonCollider;
+
+                cinemachineConfiner.InvalidatePathCache();
+            }
+        }
+
+        Transform spawn1 = GameObject.FindGameObjectWithTag("InitialSpawn").transform;
+        spawnPosition = spawn1.position;
+        player.transform.position = spawn1.position;
+    }
+
+
+    #region Control Management
     public void DisableControl()
     {
         playerAttack.enabled = false;
         playerMovement.enabled = false;
         playerHealth.enabled = false;
+        playerShoot.enabled = false;
     }
 
     public void EnableControl()
@@ -119,7 +167,39 @@ public class GameManager : MonoBehaviour
         playerAttack.enabled = true;
         playerMovement.enabled = true;
         playerHealth.enabled = true;
+        playerShoot.enabled = true;
     }
+    #endregion
+
+    #region FadeIn and FadeOut Coroutines
+    public IEnumerator FadeIn(CanvasGroup canvasGroup, float duration, int sceneIndex)
+    {
+        float time = 0;
+        while (time < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(0, 1, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 1;
+
+        SceneManager.LoadScene(sceneIndex);
+    }
+
+    public IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
+    {
+        float time = 0;
+        while (time < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(1, 0, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 0;
+
+        cinematicBars.Hide(0.3f);
+    }
+    #endregion
 
     #region PauseMenu
     public void PauseGame()
@@ -128,7 +208,6 @@ public class GameManager : MonoBehaviour
         DisableControl();
         Time.timeScale = 0f;
         isPaused = true;
-
     }
 
     public void ResumeGame()
@@ -148,7 +227,6 @@ public class GameManager : MonoBehaviour
 
     public void CinematicChat()
     {
-        isCinematic = true;
         DisableControl();
         Time.timeScale = 0f;
     }

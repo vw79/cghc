@@ -32,14 +32,16 @@ public class PlayerAttack : MonoBehaviour
 
     void Attack()
     {
-        if(playerHealth.isDead) return;
-        playerMovement.enabled = false;
-        StartCoroutine(WaitAnim());
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
-        foreach (Collider2D enemy in hitEnemies)
+        if (!playerHealth.isDead)
         {
-            Debug.Log("We hit " + enemy.name);
+            playerMovement.enabled = false;
+            StartCoroutine(WaitAnim());
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Debug.Log("We hit " + enemy.name);
+            }
         }
     }
 

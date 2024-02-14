@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -141,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
             OnJumpUpInput();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SceneManager.GetActiveScene().buildIndex != 1)
         {
             OnDashInput();
         }
@@ -552,7 +553,7 @@ public class PlayerMovement : MonoBehaviour
         return IsWallJumping && RB.velocity.y > 0;
     }
 
-    private bool CanDash()
+    public bool CanDash()
     {
         if (!IsDashing && _dashesLeft < Data.dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
         {

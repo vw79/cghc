@@ -107,7 +107,7 @@ public class CinematicBars : MonoBehaviour
 
     public void Show(float targetSize, float time) 
     {   
-        GameManager.Instance.isCinematic = true;
+        GameManager.Instance.DisableControl();
         this.targetSize = targetSize;
         changeSizeAmount = (targetSize - topBar.sizeDelta.y) / time;
         isActive = true;
@@ -116,7 +116,7 @@ public class CinematicBars : MonoBehaviour
 
     public void Hide(float time)
     {
-        GameManager.Instance.isCinematic = false;
+        GameManager.Instance.EnableControl();
         targetSize = 0;
         changeSizeAmount = -topBar.sizeDelta.y / time;
         isActive = true;

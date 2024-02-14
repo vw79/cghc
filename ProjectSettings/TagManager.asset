@@ -9,6 +9,10 @@ TagManager:
   - InitialSpawn
   - PauseMenu
   - GameOver
+  - ExplosionFilter
+  - Camera
+  - Background
+  - UI
   layers:
   - Default
   - TransparentFX
