@@ -6,6 +6,7 @@ public class Enemy_Fireball : MonoBehaviour
 {
     public float lifetime = 5f;
     public float speed = 5f;
+    public bool isStopped = false;
     private Rigidbody2D rb;
     private Vector2 direction;
 
@@ -19,7 +20,14 @@ public class Enemy_Fireball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = direction * speed;
+        if (isStopped)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            rb.velocity = direction * speed;
+        }
     }
 
     public void Initialise(Transform shooter)

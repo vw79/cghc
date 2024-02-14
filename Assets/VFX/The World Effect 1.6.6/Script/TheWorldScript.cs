@@ -4,153 +4,102 @@ using UnityEngine;
 
 public class TheWorldScript : MonoBehaviour
 {
-  #region 顯示狀態
-  [Header("顯示時間暫停狀態")]
-  public bool StopTime;
-  [Header("顯示剩餘暫停秒數")]
-  public int time;
-  #endregion
+    public bool StopTime;
+    public int time;
 
-  #region 設定
-  [Header("設定是否用無台詞音效(可在執行中動態調整)")]
-  public bool WithoutSerifu;
-  bool WithoutSerifuSetting;
-  bool WithSerifuSetting;
-  [Header("放入自定義的TheWorldResources(第一個放沒台詞的)(最大2個)")]
-  [SerializeField]
-  TheWorldResources[] TheWorldResource = new TheWorldResources[2];
+    [SerializeField] private TheWorldResources TheWorldResource;
 
-  [Header("設定是否要啟用替身能量的ParticleSystem(可在執行中動態調整)")]
-  public bool StandPowerParticleSystem;
 
-  int MaxStopTime;
-  int EndSoundEffectPlayTime;
-  AudioClip[] TheWorldSoundEffects = new AudioClip[2];
-  #endregion
+    int MaxStopTime;
+    int EndSoundEffectPlayTime;
+    AudioClip[] TheWorldSoundEffects = new AudioClip[2];
 
-  void Start()
-  {
-    
-  }
-
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.Z))
+    void Start()
     {
-      StartTimeStop();
+        
     }
-    //顯示關閉Sound
-    if (WithoutSerifu)
-    {
-      if (!WithoutSerifuSetting)
-      {
-        WithoutSerifuSetting = true;
-        WithSerifuSetting = false;
 
-        MaxStopTime = TheWorldResource[0].MaxStopTime;
-        EndSoundEffectPlayTime = TheWorldResource[0].EndSoundEffectPlayTime;
-        TheWorldSoundEffects[0] = TheWorldResource[0].TheWorldSoundEffects[0];
-        TheWorldSoundEffects[1] = TheWorldResource[0].TheWorldSoundEffects[1];
-      }
-    }
-    else
+    void Update()
     {
-      if(!WithSerifuSetting)
-      {
-        WithoutSerifuSetting = false;
-        WithSerifuSetting = true;
-
-        MaxStopTime = TheWorldResource[1].MaxStopTime;
-        EndSoundEffectPlayTime = TheWorldResource[1].EndSoundEffectPlayTime;
-        TheWorldSoundEffects[0] = TheWorldResource[1].TheWorldSoundEffects[0];
-        TheWorldSoundEffects[1] = TheWorldResource[1].TheWorldSoundEffects[1];
-      }
-    }
-    //顯示關閉替身能量ParticleSystem
-    if (StandPowerParticleSystem)
-    {
-      transform.GetChild(2).gameObject.SetActive(true);
-    }
-    else
-    {
-      transform.GetChild(2).gameObject.SetActive(false);
-    }
-  }
-
-  void StartTimeStop()
-  {
-    if (!StopTime)
-    {
-      GetComponent<AudioSource>().PlayOneShot(TheWorldSoundEffects[0]);
-      for (int i = 0; i < transform.GetChild(0).childCount; i++)
-      {
-        ParticleSystem particleSystem;
-        particleSystem = transform.GetChild(0).GetChild(i).GetComponent<ParticleSystem>();
-        particleSystem.Play();
-      }
-
-      if (StandPowerParticleSystem)
-      {
-        for (int i = 0; i < transform.GetChild(2).childCount; i++)//stand power
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-          ParticleSystem particleSystem;
-          particleSystem = transform.GetChild(2).GetChild(i).GetComponent<ParticleSystem>();
-          var main = particleSystem.main;
-          main.duration = MaxStopTime;
-          main.startLifetime = MaxStopTime;
-
-          particleSystem.Play();
+            StartTimeStop();
         }
-      }
-
-      StopTime = true;
-      //Time.timeScale = 0;
-
-      time = MaxStopTime;
-      StartCoroutine("StartStopTime");
+        MaxStopTime = TheWorldResource.MaxStopTime;
+        EndSoundEffectPlayTime = TheWorldResource.EndSoundEffectPlayTime;
+        TheWorldSoundEffects[0] = TheWorldResource.TheWorldSoundEffects[0];
+        TheWorldSoundEffects[1] = TheWorldResource.TheWorldSoundEffects[1];
     }
-  }
 
-  public IEnumerator StartStopTime()
-  {
-    while (time > 0)
+    void StartTimeStop()
     {
-      time--;
-      if (time <= 0)
-      {
-        StopTime = false;
-        //Time.timeScale = 1;
-
-        yield break;
-      }
-      else if (time > 0)
-      {
-        if (time == EndSoundEffectPlayTime)
+        if (!StopTime)
         {
-          ClearTimeStop();
-        }
+            GetComponent<AudioSource>().PlayOneShot(TheWorldSoundEffects[0]);
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
+            {
+                ParticleSystem particleSystem;
+                particleSystem = transform.GetChild(0).GetChild(i).GetComponent<ParticleSystem>();
+                particleSystem.Play();
+            }
+            
+            for (int i = 0; i < transform.GetChild(2).childCount; i++)//stand power
+            {
+                ParticleSystem particleSystem;
+                particleSystem = transform.GetChild(2).GetChild(i).GetComponent<ParticleSystem>();
+                var main = particleSystem.main;
+                main.duration = MaxStopTime;
+                main.startLifetime = MaxStopTime;
 
-        if (time == 1)
-        {
-          EndParticleSystemEffect();
+                particleSystem.Play();
+            }
+
+            StopTime = true;
+
+            time = MaxStopTime;
+            StartCoroutine("StartStopTime");
         }
-        yield return new WaitForSecondsRealtime(1);
-      }
     }
-  }
 
-  void ClearTimeStop()
-  {
-    GetComponent<AudioSource>().PlayOneShot(TheWorldSoundEffects[1]);
-  }
-
-  void EndParticleSystemEffect()
-  {
-    for (int i = 0; i < transform.GetChild(1).childCount; i++)
+    public IEnumerator StartStopTime()
     {
-      ParticleSystem PS;
-      PS = transform.GetChild(1).GetChild(i).GetComponent<ParticleSystem>();
-      PS.Play();
+        while (time > 0)
+        {
+            time--;
+            if (time <= 0)
+            {
+                StopTime = false;
+
+                yield break;
+            }
+            else if (time > 0)
+            {
+                if (time == EndSoundEffectPlayTime)
+                {
+                    ClearTimeStop();
+                }
+
+                if (time == 1)
+                {
+                    EndParticleSystemEffect();
+                }
+                yield return new WaitForSecondsRealtime(1);
+            }
+        }
     }
-  }
+
+    void ClearTimeStop()
+    {
+        GetComponent<AudioSource>().PlayOneShot(TheWorldSoundEffects[1]);
+    }
+
+    void EndParticleSystemEffect()
+    {
+        for (int i = 0; i < transform.GetChild(1).childCount; i++)
+        {
+            ParticleSystem particleSystem;
+            particleSystem = transform.GetChild(1).GetChild(i).GetComponent<ParticleSystem>();
+            particleSystem.Play();
+        }
+    }
 }

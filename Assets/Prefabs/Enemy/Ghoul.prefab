@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1495848136506197321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.24, y: 0, z: 0}
+  m_LocalPosition: {x: 1.65, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 2987366985276924646}
   - component: {fileID: 4529587477845633570}
   - component: {fileID: 1081711482991990066}
+  - component: {fileID: 8185971612624492004}
   m_Layer: 9
   m_Name: Burning Ghoul
   m_TagString: Untagged
@@ -331,6 +332,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68767ee30a61c90458995e482da02e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8185971612624492004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5873397836816913614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1140358870cffc646af2df0d683f0051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptsToStop:
+  - {fileID: 2987366985276924646}
+  - {fileID: 4529587477845633570}
 --- !u!1 &8248030741827207240
 GameObject:
   m_ObjectHideFlags: 0
