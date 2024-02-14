@@ -35,14 +35,8 @@ public class PlayerAttack : MonoBehaviour
         if (!playerHealth.isDead)
         {
             playerMovement.enabled = false;
+            StartCoroutine(WaitAttack());
             StartCoroutine(WaitAnim());
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("We hit " + enemy.name);
-                enemy.GetComponent<Enemy_Health>().Die();
-            }
         }
     }
 
@@ -61,5 +55,17 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(0.47f);
         playerMovement.enabled = true;
         isAttacking = false;
+    }
+
+    IEnumerator WaitAttack()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy.name);
+            enemy.GetComponent<Enemy_Health>().Die();
+        }
     }
 }
