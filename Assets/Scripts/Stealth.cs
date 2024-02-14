@@ -123,7 +123,7 @@ public class Stealth : MonoBehaviour
         gameObject.tag = defaultTag;
         stealthFilter.SetActive(false);
         playerSpriteRenderer.sortingLayerName = "Default";
-        playerSpriteRenderer.sortingOrder = 0;
+        playerSpriteRenderer.sortingOrder = 1;
         hide.Stop();
         Debug.Log("Exiting Stealth Mode");
     }
