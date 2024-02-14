@@ -856,8 +856,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brightnessSlider: {fileID: 2113360649}
-  volumeSlider: {fileID: 1031371420}
-  musicSlider: {fileID: 0}
+  volumeSlider: {fileID: 2133415274}
+  musicSlider: {fileID: 1031371420}
   soundefSlider: {fileID: 869607074}
   brightness: {fileID: 11400000, guid: a5087cc2fb44d9847b0bfba5db564441, type: 2}
   layer: {fileID: 1776173250}
