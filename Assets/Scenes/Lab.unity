@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - line: IM Player
+  - line: What!? What happened!?
     speaker: 0
 --- !u!61 &603288254
 BoxCollider2D:
@@ -2511,8 +2511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - line: IM NPC
-    speaker: 1
+  - line: Ah, a Hardon Collider.
+    speaker: 0
 --- !u!61 &1984782573
 BoxCollider2D:
   m_ObjectHideFlags: 0
