@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private GameObject pauseMenu;
     private CanvasGroup explosionCanvasGroup;
     private CinematicBars cinematicBars;
+    private Dialogue dialogue;
 
     private Vector3 spawnPosition;
     private GameObject player;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     private PlayerAttack playerAttack;
     private Anim anim;
     public bool isPaused;
+    public bool isCinematic;
 
     private void Awake()
     {
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
         loseMenu = GameObject.FindGameObjectWithTag("GameOver");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
         explosionCanvasGroup = GameObject.FindGameObjectWithTag("ExplosionFilter").GetComponent<CanvasGroup>();
+        dialogue = GameObject.FindGameObjectWithTag("Dialogue").GetComponent<Dialogue>();
         //winMenu = GameObject.Find("WinMenu");
         DontDestroyOnLoad(explosionCanvasGroup);
         player = GameObject.FindGameObjectWithTag("Player");
@@ -139,6 +142,7 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StopAllCoroutines();
+        dialogue.HideAll();
         StartCoroutine(FadeOut(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f));
         GameObject background = GameObject.FindGameObjectWithTag("Background");
 
@@ -185,6 +189,7 @@ public class GameManager : MonoBehaviour
     #region FadeIn and FadeOut Coroutines
     public IEnumerator FadeIn(CanvasGroup canvasGroup, float duration, int sceneIndex)
     {
+        DisableControl();
         float time = 0;
         while (time < duration)
         {
