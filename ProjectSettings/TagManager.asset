@@ -13,6 +13,7 @@ TagManager:
   - Camera
   - Background
   - UI
+  - Dialogue
   layers:
   - Default
   - TransparentFX
