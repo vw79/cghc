@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
@@ -17,6 +16,7 @@ public class GameManager : MonoBehaviour
     private GameObject inGameUI;
 
     public GameObject loseMenu;
+    public GameObject HUD;
     private GameObject winMenu;
     private GameObject pauseMenu;
     private CanvasGroup explosionCanvasGroup;
@@ -300,6 +300,8 @@ public class GameManager : MonoBehaviour
     {
         player.SetActive(false);
         Time.timeScale = 1f;
+        HUD.SetActive(false);
+        pauseMenu.SetActive(false);
         SceneManager.LoadScene(0);
     }
 
