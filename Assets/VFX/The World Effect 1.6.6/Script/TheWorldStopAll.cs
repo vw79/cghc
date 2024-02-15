@@ -19,7 +19,9 @@ public class TheWorldStopAll : MonoBehaviour
 
     void Update()
     {
-        isTimeStopped = GameObject.Find("The World Effect").GetComponent<TheWorldScript>().StopTime;
+        GameObject theWorldScript = GameObject.Find("The World Effect");
+        if (theWorldScript == null) return;
+        isTimeStopped = theWorldScript.GetComponent<TheWorldScript>().StopTime;
 
         if (isTimeStopped)
         {

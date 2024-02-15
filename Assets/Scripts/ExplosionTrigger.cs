@@ -18,7 +18,6 @@ public class ExplosionTrigger : MonoBehaviour
 
     private void Start()
     {
-        explosionCanvasGroup.alpha = 0;
         explosion.SetActive(false);
     }
 
