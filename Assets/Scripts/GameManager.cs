@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     public Image redImage;
     public Image greenImage;
 
+    public bool isLava;
+
     private void Awake()
     {
         if (Instance == null)
@@ -144,6 +146,7 @@ public class GameManager : MonoBehaviour
     {
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
         explosionCanvasGroup.alpha = 0;
         player.SetActive(true);
         EnableControl();
@@ -164,6 +167,9 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
         dialogue.HideAll();
+
+        
+
         StartCoroutine(FadeOut(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f));
         GameObject background = GameObject.FindGameObjectWithTag("Background");
 
@@ -178,9 +184,18 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Transform spawn1 = GameObject.FindGameObjectWithTag("InitialSpawn").transform;
-        spawnPosition = spawn1.position;
-        player.transform.position = spawn1.position;
+        if (SceneManager.GetActiveScene().buildIndex == 6 && isLava)
+        {
+            Transform spawn2 = GameObject.FindGameObjectWithTag("Spawn2").transform;
+            spawnPosition = spawn2.position;
+            player.transform.position = spawn2.position;
+        }
+        else
+        {
+            Transform spawn1 = GameObject.FindGameObjectWithTag("InitialSpawn").transform;
+            spawnPosition = spawn1.position;
+            player.transform.position = spawn1.position;
+        }
     }
 
     void OnDestroy()
