@@ -38,10 +38,14 @@ public class Dialogue : MonoBehaviour
         // Add more as needed
     }
 
-    private void Start()
+    private void Awake()
     {
         dialogueBoxImage = GetComponent<Image>();
         textComponent.text = string.Empty;
+    }
+
+    private void Start()
+    {
         HideAll();
     }
 
