@@ -13,9 +13,14 @@ public class TriggerTeleport : MonoBehaviour
         explosionCanvasGroup = GameObject.FindGameObjectWithTag("ExplosionFilter").GetComponent<CanvasGroup>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        StartCoroutine(DelayTeleport());
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("Teleporting to scene " + SceneIndex);
+            GetComponent<BoxCollider2D>().enabled = false;
+            StartCoroutine(DelayTeleport());
+        }
     }
 
     private IEnumerator DelayTeleport()
