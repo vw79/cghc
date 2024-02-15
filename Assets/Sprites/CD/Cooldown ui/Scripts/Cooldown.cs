@@ -10,7 +10,6 @@ public class Cooldown : MonoBehaviour
     [SerializeField] private TMP_Text textCooldown;
     [SerializeField] private Image imageEdge;
     [SerializeField] private float cdTime;
-    private PlayerShoot playerShoot;
 
     private bool isCoolDown = false;
     private float cooldownTimer = 0.0f;
@@ -20,8 +19,6 @@ public class Cooldown : MonoBehaviour
         textCooldown.gameObject.SetActive(false);
         imageEdge.gameObject.SetActive(false);
         imageCooldown.fillAmount = 0.0f;
-        playerShoot = GameObject.FindWithTag("Player").GetComponent<PlayerShoot>();
-        cdTime = playerShoot.cooldownTime;
     }
 
     void Update()

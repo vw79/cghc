@@ -37,6 +37,6 @@ public class ExplosionTrigger : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         explosion.SetActive(false);
-        StartCoroutine(GameManager.Instance.FadeIn(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f, 4));
+        StartCoroutine(GameManager.Instance.FadeIn(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f, 2));
     }
 }

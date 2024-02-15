@@ -8,7 +8,7 @@ public class TheWorldScript : MonoBehaviour
     public int time;
 
     [SerializeField] private TheWorldResources TheWorldResource;
-
+    [SerializeField] private Cooldown cooldownUI;
 
     int MaxStopTime;
     int EndSoundEffectPlayTime;
@@ -23,7 +23,10 @@ public class TheWorldScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            StartTimeStop();
+            if (cooldownUI.UseSpell())
+            {
+                StartTimeStop();
+            }
         }
         MaxStopTime = TheWorldResource.MaxStopTime;
         EndSoundEffectPlayTime = TheWorldResource.EndSoundEffectPlayTime;
