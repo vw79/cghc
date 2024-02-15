@@ -811,6 +811,10 @@ PrefabInstance:
       propertyPath: virtualCamera
       value: 
       objectReference: {fileID: 1652962795}
+    - target: {fileID: 4857832161009403445, guid: 6ce3626102323a64ea8b69c9c5f02937, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 04ede525d328b5443ae140b90aebaffa, type: 3}
     - target: {fileID: 4907582629306456649, guid: 6ce3626102323a64ea8b69c9c5f02937, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
