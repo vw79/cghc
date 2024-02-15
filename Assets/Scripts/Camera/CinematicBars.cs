@@ -96,13 +96,6 @@ public class CinematicBars : MonoBehaviour
             float targetOrthoSize = targetSize > 0 ? zoomInSize : zoomOutSize;
             virtualCamera.m_Lens.OrthographicSize = Mathf.MoveTowards(virtualCamera.m_Lens.OrthographicSize, targetOrthoSize, zoomChangeSpeed * Time.deltaTime);
         }
-
-
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-            { Hide(.3f); }
-
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-            { Show(300, .3f); }
     }
 
     public void Show(float targetSize, float time) 

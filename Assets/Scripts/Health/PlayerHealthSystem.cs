@@ -30,24 +30,6 @@ public class PlayerHealthSystem : MonoBehaviour
         lives = hearts.Length;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage();
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Heal(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ResetHealth();
-        }
-    }
-
     public void TakeDamage()
     {
         if (isDead) return;

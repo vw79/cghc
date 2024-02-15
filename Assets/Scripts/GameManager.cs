@@ -177,7 +177,9 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StopAllCoroutines();
-        dialogue.HideAll();
+        if (dialogue == null) return;
+        else { dialogue.HideAll(); }
+        
 
         
 
