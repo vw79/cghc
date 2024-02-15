@@ -26,11 +26,6 @@ public class Cooldown : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UseSpell();
-        }
-
         if (isCoolDown)
         {
             ApplyCooldown();

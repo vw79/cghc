@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
     {
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            
+        explosionCanvasGroup.alpha = 0;
         player.SetActive(true);
         EnableControl();
         playerHealth.ResetHealth();

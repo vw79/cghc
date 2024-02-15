@@ -11,6 +11,7 @@ public class SwitchCam : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            GameManager.Instance.DisableControl();
             if (cam2 == null) return;
             cam2.SetActive(true);
             StartCoroutine(DeactivateCam2AfterDelay());
@@ -19,8 +20,9 @@ public class SwitchCam : MonoBehaviour
 
     private IEnumerator DeactivateCam2AfterDelay()
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delay);       
         cam2.SetActive(false);
+        GameManager.Instance.EnableControl();
         Destroy(this.gameObject);
     }
 }

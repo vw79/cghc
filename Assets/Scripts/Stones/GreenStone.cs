@@ -7,11 +7,15 @@ public class GreenStone : MonoBehaviour
 {
     public GameObject m1;
     public GameObject c1;
+    public GameObject m2;
     private GameObject player;
+    public GameObject Lv5Tu;
     private Rigidbody2D rb;
     private CanvasGroup explosionCanvasGroup;
     private bool isC1;
     private bool isM1;
+    private bool isM2;
+    public bool canUse;
 
     private CinemachineConfiner cinemachineConfiner;
 
@@ -26,28 +30,35 @@ public class GreenStone : MonoBehaviour
     private void Start()
     {
         isM1 = true;
+        Lv5Tu.SetActive(false);
+        m1.SetActive(true);
         c1.SetActive(false);
+        m2.SetActive(false);
     }
 
     private void Update()
     {
         if (GameManager.Instance.isGreen)
         {
-            if (isM1 && Input.GetKeyDown(KeyCode.E))
+            Lv5Tu.SetActive(true);
+
+            if (isM1 && Input.GetKeyDown(KeyCode.E) && canUse)
             {
+                c1.SetActive(false);
                 rb.bodyType = RigidbodyType2D.Static;
                 StartCoroutine(GameManager.Instance.FadeInNoTrans(explosionCanvasGroup, 1f));
                 isM1 = false;
                 isC1 = true;
                 StartCoroutine(WaitTime(m1, c1));
+                canUse = false;
             }
-            else if (isC1 && Input.GetKeyDown(KeyCode.E))
+            else if (isC1 && Input.GetKeyDown(KeyCode.E) && canUse)
             {
                 rb.bodyType = RigidbodyType2D.Static;
                 StartCoroutine(GameManager.Instance.FadeInNoTrans(explosionCanvasGroup, 1f));
-                isM1 = true;
+                isM2 = true;
                 isC1 = false;
-                StartCoroutine(WaitTime(c1, m1));
+                StartCoroutine(WaitTime(c1, m2));
             }
         }
     }
