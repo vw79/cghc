@@ -7,6 +7,7 @@ public class Stone : MonoBehaviour
 {
     [Header("Visual Cue")]
     [SerializeField] private Image visualCue;
+    [SerializeField] private int SceneIndex;
     private CanvasGroup explosionCanvasGroup;
 
     private bool playerInRange;
@@ -30,7 +31,7 @@ public class Stone : MonoBehaviour
             visualCue.enabled = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
-                StartCoroutine(GameManager.Instance.FadeIn(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f, 3));
+                StartCoroutine(GameManager.Instance.FadeIn(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f, SceneIndex));
             }
         }
         else
