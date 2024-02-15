@@ -29,13 +29,13 @@ public class GreenStone : MonoBehaviour
 
     private void Start()
     {
-        if (GameManager.Instance.isLava) return;
-
+        
         isM1 = true;
         Lv5Tu.SetActive(false);
         m1.SetActive(true);
         c1.SetActive(false);
         m2.SetActive(false);
+              
     }
 
     private void Update()
@@ -60,7 +60,6 @@ public class GreenStone : MonoBehaviour
                 StartCoroutine(GameManager.Instance.FadeInNoTrans(explosionCanvasGroup, 1f));
                 isM2 = true;
                 isC1 = false;
-                GameManager.Instance.isLava = true;
                 StartCoroutine(WaitTime(c1, m2));
                 canUse = false;
             }

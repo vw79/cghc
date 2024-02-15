@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
     private PlayerMovement playerMovement;  
     private PlayerAttack playerAttack;
     private TheWorldScript theWorldScript;
-    private Anim anim;
     public bool isPaused;
     public bool isCinematic;
 
@@ -42,8 +41,6 @@ public class GameManager : MonoBehaviour
     public Image blueImage;
     public Image redImage;
     public Image greenImage;
-
-    public bool isLava;
 
     private void Awake()
     {
@@ -81,7 +78,6 @@ public class GameManager : MonoBehaviour
         playerAttack = player.GetComponent<PlayerAttack>();
         playerShoot = player.GetComponent<PlayerShoot>();
         theWorldScript = player.GetComponentInChildren<TheWorldScript>();
-        anim = player.GetComponentInChildren<Anim>();
 
         loseMenu.SetActive(false);
         //winMenu.SetActive(false);
@@ -196,19 +192,11 @@ public class GameManager : MonoBehaviour
                 cinemachineConfiner.InvalidatePathCache();
             }
         }
-
-        if (SceneManager.GetActiveScene().buildIndex == 6 && isLava)
-        {
-            Transform spawn2 = GameObject.FindGameObjectWithTag("Spawn2").transform;
-            spawnPosition = spawn2.position;
-            player.transform.position = spawn2.position;
-        }
-        else
-        {
-            Transform spawn1 = GameObject.FindGameObjectWithTag("InitialSpawn").transform;
-            spawnPosition = spawn1.position;
-            player.transform.position = spawn1.position;
-        }
+    
+        Transform spawn1 = GameObject.FindGameObjectWithTag("InitialSpawn").transform;
+        spawnPosition = spawn1.position;
+        player.transform.position = spawn1.position;
+        
     }
 
     void OnDestroy()
