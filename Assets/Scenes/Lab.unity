@@ -1163,6 +1163,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1547520489384767610, guid: 6ce3626102323a64ea8b69c9c5f02937, type: 3}
   m_PrefabInstance: {fileID: 467432646}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &887836304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1757907505644099012, guid: 6ce3626102323a64ea8b69c9c5f02937, type: 3}
+  m_PrefabInstance: {fileID: 467432646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &924963206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1385,14 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8867713229033691160, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
+      propertyPath: hidingHUD
+      value: 
+      objectReference: {fileID: 887836304}
+    - target: {fileID: 8867713229033691160, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
+      propertyPath: cooldownHUD
+      value: 
+      objectReference: {fileID: 1074551473}
+    - target: {fileID: 8867713229033691160, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
       propertyPath: stealthFilter
       value: 
       objectReference: {fileID: 860446860}
@@ -1388,6 +1401,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
+--- !u!1 &1074551473 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 543189289731421745, guid: 6ce3626102323a64ea8b69c9c5f02937, type: 3}
+  m_PrefabInstance: {fileID: 467432646}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1259710404 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2007186390358772960, guid: 6ce3626102323a64ea8b69c9c5f02937, type: 3}

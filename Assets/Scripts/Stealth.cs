@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Stealth : MonoBehaviour
 {
-    public GameObject stealthFilter; // Reference to the stealth filter object
+    public GameObject stealthFilter;
+    public GameObject hidingHUD;
+    public GameObject cooldownHUD;
     public AudioSource hide;
 
     private string defaultTag;
-    private bool isPlayerInHidingZone = false; // Track if the player is in a hiding zone
-    private bool isStealthModeActive = false; // Track the state of stealth mode
-    private bool isCooldownActive = false; // Track if the cooldown is active
+    private bool isPlayerInHidingZone = false;
+    private bool isStealthModeActive = false;
+    private bool isCooldownActive = false;
     private SpriteRenderer playerSpriteRenderer;
 
     // Cooldown and hiding duration
@@ -25,8 +27,9 @@ public class Stealth : MonoBehaviour
         // Get the SpriteRenderer from the child GameObject
         playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        // Ensure the stealth filter is initially deactivated
         stealthFilter.SetActive(false);
+        hidingHUD.SetActive(false);
+        cooldownHUD.SetActive(false);
     }
 
     private void Update()
@@ -74,6 +77,7 @@ public class Stealth : MonoBehaviour
             // Enter stealth mode
             gameObject.tag = "Stealth";
             stealthFilter.SetActive(true);
+            hidingHUD.SetActive(true);
             Debug.Log("Entering Stealth Mode");
             playerSpriteRenderer.sortingLayerName = "Hide";
             playerSpriteRenderer.sortingOrder = 1;
@@ -111,8 +115,12 @@ public class Stealth : MonoBehaviour
 
     private IEnumerator CooldownTimer()
     {
+        hidingHUD.SetActive(false);
+        cooldownHUD.SetActive(true);
+
         yield return new WaitForSeconds(cooldownTime);
         isCooldownActive = false;
+        cooldownHUD.SetActive(false);
         Debug.Log("Stealth cooldown finished. You can hide again.");
     }
 
