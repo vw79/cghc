@@ -27,14 +27,20 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     private PlayerHealthSystem playerHealth;
     private PlayerShoot playerShoot;
-
-
-    
+  
     private PlayerMovement playerMovement;  
     private PlayerAttack playerAttack;
     private Anim anim;
     public bool isPaused;
     public bool isCinematic;
+
+    public bool isBlue;
+    public bool isRed;
+    public bool isGreen;
+
+    public Image blueImage;
+    public Image redImage;
+    public Image greenImage;
 
     private void Awake()
     {
@@ -83,6 +89,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         explosionCanvasGroup.alpha = 0;
+        blueImage.enabled = false;
+        redImage.enabled = false;
+        greenImage.enabled = false;
     }
 
     void Update()
@@ -102,12 +111,19 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             playerAttack.enabled = false;
-            playerShoot.enabled = false;
         }
         else
         {
             playerAttack.enabled = true;
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 4 || SceneManager.GetActiveScene().buildIndex == 5 || SceneManager.GetActiveScene().buildIndex == 6)
+        {
             playerShoot.enabled = true;
+        }
+        else
+        {
+            playerShoot.enabled = false;
         }
     }
 
