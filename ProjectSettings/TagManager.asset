@@ -14,6 +14,7 @@ TagManager:
   - Background
   - UI
   - Dialogue
+  - Spawn2
   layers:
   - Default
   - TransparentFX
