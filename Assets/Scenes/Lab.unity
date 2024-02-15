@@ -1332,6 +1332,10 @@ PrefabInstance:
       propertyPath: cdScript
       value: 
       objectReference: {fileID: 1055812680}
+    - target: {fileID: 3407132822851747129, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5717191809131079758, guid: 4368f1cda0789474ba96d94d2f7a8101, type: 3}
       propertyPath: hearts.Array.data[0]
       value: 

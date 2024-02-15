@@ -5178,7 +5178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualCue: {fileID: 497223005}
-  SceneIndex: 4
+  SceneIndex: 3
 --- !u!1001 &1338706490
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
   
     private PlayerMovement playerMovement;  
     private PlayerAttack playerAttack;
+    private TheWorldScript theWorldScript;
     private Anim anim;
     public bool isPaused;
     public bool isCinematic;
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
         playerMovement = player.GetComponent<PlayerMovement>();
         playerAttack = player.GetComponent<PlayerAttack>();
         playerShoot = player.GetComponent<PlayerShoot>();
+        theWorldScript = player.GetComponentInChildren<TheWorldScript>();
         anim = player.GetComponentInChildren<Anim>();
 
         loseMenu.SetActive(false);
@@ -119,7 +121,16 @@ public class GameManager : MonoBehaviour
             playerAttack.enabled = true;
         }
 
-        if (SceneManager.GetActiveScene().buildIndex == 4 || SceneManager.GetActiveScene().buildIndex == 5 || SceneManager.GetActiveScene().buildIndex == 6)
+        if (SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            theWorldScript.enabled = true;
+        }
+        else
+        {
+            theWorldScript.enabled = false;
+        }
+
+        if(isRed)
         {
             playerShoot.enabled = true;
         }
