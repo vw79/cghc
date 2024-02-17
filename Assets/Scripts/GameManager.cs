@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject HUD;
     private GameObject winMenu;
     private GameObject pauseMenu;
+    private GameObject explosionFilter;
     private CanvasGroup explosionCanvasGroup;
     private CinematicBars cinematicBars;
     private Dialogue dialogue;
@@ -58,15 +59,16 @@ public class GameManager : MonoBehaviour
         cinematicBars = GameObject.Find("CinematicBars").GetComponent<CinematicBars>();
         loseMenu = GameObject.FindGameObjectWithTag("GameOver");
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
-        explosionCanvasGroup = GameObject.FindGameObjectWithTag("ExplosionFilter").GetComponent<CanvasGroup>();
+        explosionFilter = GameObject.FindGameObjectWithTag("ExplosionFilter");
+        explosionCanvasGroup = explosionFilter.GetComponent<CanvasGroup>();
         dialogue = GameObject.FindGameObjectWithTag("Dialogue").GetComponent<Dialogue>();
-        //winMenu = GameObject.Find("WinMenu");
-        DontDestroyOnLoad(explosionCanvasGroup);
+        
         player = GameObject.FindGameObjectWithTag("Player");
         vCamera = GameObject.FindGameObjectWithTag("Camera");
         cinemachineConfiner = FindObjectOfType<CinemachineConfiner>();
         inGameUI = GameObject.FindGameObjectWithTag("UI");
 
+        DontDestroyOnLoad(explosionCanvasGroup);
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(vCamera);
         DontDestroyOnLoad(inGameUI);
@@ -286,11 +288,13 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
-        player.SetActive(false);
+        Destroy(vCamera);
+        Destroy(explosionFilter);
+        Destroy(player);        
+        Destroy(inGameUI);       
         Time.timeScale = 1f;
-        HUD.SetActive(false);
-        pauseMenu.SetActive(false);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(0);       
+        Destroy(gameObject);
     }
 
     public void CinematicChat()
