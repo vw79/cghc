@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour
     {        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
+        Cursor.visible = false;
         explosionCanvasGroup.alpha = 0;
         player.SetActive(true);
         EnableControl();

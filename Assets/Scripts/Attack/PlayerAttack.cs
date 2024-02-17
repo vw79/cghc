@@ -14,6 +14,8 @@ public class PlayerAttack : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerHealthSystem playerHealth;
 
+    public AudioSource swordAudio;
+
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -26,6 +28,7 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {             
             Attack();
+            swordAudio.Play();
             isAttacking = true;
         }
     }
@@ -53,6 +56,7 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator WaitAnim()
     {
         yield return new WaitForSeconds(0.47f);
+        swordAudio.Stop();
         playerMovement.enabled = true;
         isAttacking = false;
     }
