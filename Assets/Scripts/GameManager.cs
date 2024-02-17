@@ -43,6 +43,11 @@ public class GameManager : MonoBehaviour
     public Image redImage;
     public Image greenImage;
 
+    public Image teleportImage;
+    public Image teleportFrame;
+    public Image zawarudoImage;
+    public Image zawarudoFrame;
+
     private void Awake()
     {
         if (Instance == null)
@@ -90,10 +95,15 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
         explosionCanvasGroup.alpha = 0;
         blueImage.enabled = false;
         redImage.enabled = false;
         greenImage.enabled = false;
+        teleportImage.enabled = false;
+        teleportFrame.enabled = false;
+        zawarudoImage.enabled = false;
+        zawarudoFrame.enabled = false;
     }
 
     void Update()
@@ -122,19 +132,27 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 5)
         {
             theWorldScript.enabled = true;
+            zawarudoImage.enabled = true;
+            zawarudoFrame.enabled = true;
         }
         else
         {
             theWorldScript.enabled = false;
+            zawarudoImage.enabled = false;
+            zawarudoFrame.enabled = false;
         }
 
         if(isRed)
         {
             playerShoot.enabled = true;
+            teleportImage.enabled = true;
+            teleportFrame.enabled = true;
         }
         else
         {
             playerShoot.enabled = false;
+            teleportImage.enabled = false;
+            teleportFrame.enabled = false;
         }
     }
 
@@ -164,7 +182,6 @@ public class GameManager : MonoBehaviour
         player.transform.position = spawnPosition; 
 
         loseMenu.SetActive(false);
-        //winMenu.SetActive(false);
         pauseMenu.SetActive(false);
 
         Time.timeScale = 1f;
@@ -273,6 +290,7 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
+        Cursor.visible = true;
         DisableControl();
         Time.timeScale = 0f;
         isPaused = true;
@@ -281,6 +299,7 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
+        Cursor.visible = false;
         EnableControl();
         Time.timeScale = 1f;
         isPaused = false;
@@ -294,6 +313,7 @@ public class GameManager : MonoBehaviour
         Destroy(inGameUI);       
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);       
+        Cursor.visible = true;
         Destroy(gameObject);
     }
 

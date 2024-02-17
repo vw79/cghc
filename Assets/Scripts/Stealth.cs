@@ -19,6 +19,12 @@ public class Stealth : MonoBehaviour
     private float cooldownTime = 3f;
     private float maxHidingTime = 5f;
 
+    private GameObject player;  
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
     private void Start()
     {
         // Store the player's default tag
@@ -107,6 +113,7 @@ public class Stealth : MonoBehaviour
 
     private void StartCooldown()
     {
+        if (player == null) return;
         ExitStealthMode();
         isCooldownActive = true;
         StartCoroutine(CooldownTimer());
