@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject loseMenu;
     public GameObject HUD;
-    private GameObject winMenu;
     private GameObject pauseMenu;
     private GameObject explosionFilter;
     private CanvasGroup explosionCanvasGroup;
@@ -87,7 +86,6 @@ public class GameManager : MonoBehaviour
         theWorldScript = player.GetComponentInChildren<TheWorldScript>();
 
         loseMenu.SetActive(false);
-        //winMenu.SetActive(false);
         pauseMenu.SetActive(false);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -157,21 +155,15 @@ public class GameManager : MonoBehaviour
     }
 
     public void PlayerDied()
-    {
+    {   
+        Cursor.visible = true;
         DisableControl();
         loseMenu.SetActive(true);
         Time.timeScale = 0;
     }
 
-    public void PlayerWon()
-    {
-        winMenu.SetActive(true);
-        Time.timeScale = 0;
-    }
-
     public void RestartGame()
-    {
-        
+    {        
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         explosionCanvasGroup.alpha = 0;
@@ -195,9 +187,6 @@ public class GameManager : MonoBehaviour
         if (dialogue == null) return;
         else { dialogue.HideAll(); }
         
-
-        
-
         StartCoroutine(FadeOut(explosionCanvasGroup.GetComponent<CanvasGroup>(), 1f));
         GameObject background = GameObject.FindGameObjectWithTag("Background");
 
