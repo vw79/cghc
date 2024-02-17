@@ -25,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !GameManager.Instance.isPaused)
         {             
             Attack();
             swordAudio.Play();
