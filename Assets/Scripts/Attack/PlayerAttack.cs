@@ -16,6 +16,12 @@ public class PlayerAttack : MonoBehaviour
 
     public AudioSource swordAudio;
 
+    private void OnEnable()
+    {
+        StopAllCoroutines();
+        isAttacking = false;
+    }
+
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();

@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
     public Image zawarudoImage;
     public Image zawarudoFrame;
 
+    public GameObject bgm;
+
     private void Awake()
     {
         if (Instance == null)
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(player);
         DontDestroyOnLoad(vCamera);
         DontDestroyOnLoad(inGameUI);
+        DontDestroyOnLoad(bgm);
 
 
         playerHealth = player.GetComponent<PlayerHealthSystem>();
@@ -157,6 +160,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDied()
     {   
         Cursor.visible = true;
+        isPaused = true;
         DisableControl();
         loseMenu.SetActive(true);
         Time.timeScale = 0;
@@ -297,6 +301,7 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
+        Destroy(bgm);
         Destroy(vCamera);
         Destroy(explosionFilter);
         Destroy(player);        
