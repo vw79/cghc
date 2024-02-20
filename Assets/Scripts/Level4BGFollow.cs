@@ -9,6 +9,7 @@ public class Level4BGFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Camera.main == null) return;
         transform.position = new Vector3(Camera.main.transform.position.x + offset.x, Camera.main.transform.position.y + offset.y, transform.position.z);
     }
 }
