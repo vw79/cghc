@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class EnableGreen : MonoBehaviour
 {
+    private void Start()
+    {
+        if (GameManager.Instance.isGreen)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Player"))
