@@ -283,11 +283,14 @@ public class GameManager : MonoBehaviour
     #region PauseMenu
     public void PauseGame()
     {
-        pauseMenu.SetActive(true);
-        Cursor.visible = true;
-        DisableControl();
-        Time.timeScale = 0f;
-        isPaused = true;
+        if (!playerHealth.isDead)
+        {
+            pauseMenu.SetActive(true);
+            Cursor.visible = true;
+            DisableControl();
+            Time.timeScale = 0f;
+            isPaused = true;
+        }
     }
 
     public void ResumeGame()

@@ -91776,6 +91776,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7674096289368560291, guid: 51957ecaf8d338b49a69411d69997592, type: 3}
+      propertyPath: dialogue2
+      value: 
+      objectReference: {fileID: 1398004238}
+    - target: {fileID: 7674096289368560291, guid: 51957ecaf8d338b49a69411d69997592, type: 3}
+      propertyPath: dialogue3
+      value: 
+      objectReference: {fileID: 437954296}
+    - target: {fileID: 7674096289368560291, guid: 51957ecaf8d338b49a69411d69997592, type: 3}
+      propertyPath: camTrigger1
+      value: 
+      objectReference: {fileID: 1450994501}
+    - target: {fileID: 7674096289368560291, guid: 51957ecaf8d338b49a69411d69997592, type: 3}
+      propertyPath: canTrigger2
+      value: 
+      objectReference: {fileID: 1130873384}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
