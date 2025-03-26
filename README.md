@@ -18,20 +18,26 @@ A side-scrolling **platformer** built in **Unity**, where players control **Elin
 
 ## 🖼️ Screenshots
 
+### Main Menu
+![main-menu](./Screenshots/MainMenu.png)
+
+### Dialogue System 
+![dialogue](./Screenshots/Dialogue.png)
+
 ### Level 1 (Start and end of the game)  
-![main-menu](./Screenshots/Level1.jpg)
+![level1](./Screenshots/Level1.jpg)
 
 ### Level 2 (Tutorial and Stealth)
-![level1](./Screenshots/Level2.jpg)
+![level2](./Screenshots/Level2.jpg)
 
 ### Level 3 (Teleport Spear)
-![level2](./Screenshots/Level3.png)
+![level3](./Screenshots/Level3.png)
 
 ### Level 4 (Time Stop)
-![level3](./Screenshots/Level4.png)
+![level4](./Screenshots/Level4.png)
 
 ### Level 5 Era Switching Puzzle
-![level4](./Screenshots/Level5.jpg)
+![level5](./Screenshots/Level5.jpg)
 
 ---
 
